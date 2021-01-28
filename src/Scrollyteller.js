@@ -64,6 +64,7 @@ const narrativeStyle = css`
     margin-right: 20px;
     text-align: center;
     padding: 10%;
+    background: white;
   }
   .blurb {
     margin-left: 10%;
@@ -158,20 +159,20 @@ function Scrollyteller() {
       .onStepEnter((response) => {
         // { element, index, direction }
         if (response.index === 1) {
-          response.element.style.background = "coral";
+          response.element.style.background = "none";
         } else if (response.index === 2) {
-          response.element.style.background = "green";
+          response.element.style.background = "none";
         } else {
-          response.element.style.background = "grey";
+          response.element.style.background = "none";
         }
       })
       .onStepExit((response) => {
         if (response.index === 1) {
-          response.element.style.background = "white";
+          response.element.style.background = "none";
         } else if (response.index === 2) {
-          response.element.style.background = "white";
+          response.element.style.background = "none";
         } else {
-          response.element.style.background = "white";
+          response.element.style.background = "none";
         }
       });
 
@@ -311,7 +312,7 @@ function Scrollyteller() {
   const onStepExit = ({ element }) => {
     // console.log(element)
     setProgress(0);
-    element.style.backgroundColor = "#fff";
+   // element.style.backgroundColor = "#fff";
   };
 
   const onStepProgress = ({ element, progress }) => {
