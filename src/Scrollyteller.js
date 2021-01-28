@@ -25,10 +25,12 @@ const narrativeStyle = css`
   img {
     max-width: 500px;
   }
-  .main {
+  ${
+    "" /* .main {
     padding: 3vh 2vw;
     display: flex;
     justify-content: space-between;
+  } */
   }
   .graphic {
     flex-basis: 50%;
@@ -42,15 +44,13 @@ const narrativeStyle = css`
     font-size: 5rem;
     text-align: center;
   }
-  .scroller {
-    flex-basis: 30%;
-  }
+
   .card-text {
     font-size: 18px !important;
     line-height: 1.3;
   }
   .step {
-    margin-right: 50px;
+    margin-top: 10px;
     padding-top: 200px;
     padding-bottom: 200px;
     "&:last-child": {
@@ -84,19 +84,43 @@ const narrativeStyle = css`
     padding: 10%;
     font-size: 24px !important;
   }
+
+  .main {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    margin: 0px 10px;
+  }
+
+  @media screen and (max-width: 940px) {
+    .main {
+      grid-template-columns: 1fr 300px;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .main {
+      grid-template-columns: 1fr;
+    }
+    .step { 
+      position:relative;
+      z-index:100;
+      opacity: 0.9;
+    }
+
+
+  }
 `;
 const introBlurb = (
   <div>
-      <br></br>
-      <p>
-        You can intro your story here, or delete this by deleting the
-        "introBlurb" constant from being defined and from being rendered. This
-        text export from goole sheet
-      </p>
-      <br></br>
+    <br></br>
+    <p>
+      You can intro your story here, or delete this by deleting the "introBlurb"
+      constant from being defined and from being rendered. This text export from
+      goole sheet
+    </p>
+    <br></br>
   </div>
 );
-
 
 function Scrollyteller() {
   const [data, setData] = useState("1");
@@ -159,85 +183,83 @@ function Scrollyteller() {
 
   useEffect(() => {
     console.log(data, "use");
-   
-      oneRef.current.addEventListener("load", function (e) {
-        console.log('hola1');
-        create({
-          mode: "scroll",
-          player: `#firstLottie`,
-          container: "#step1",
-          actions: [
-            {
-              visibility: [0.3, 0.8],
-              type: "seek",
-              frames: [0, 200],
-            },
-          ],
-        });
+
+    oneRef.current.addEventListener("load", function (e) {
+      console.log("hola1");
+      create({
+        mode: "scroll",
+        player: `#firstLottie`,
+        container: "#step1",
+        actions: [
+          {
+            visibility: [0.3, 0.8],
+            type: "seek",
+            frames: [0, 100],
+          },
+        ],
       });
-   
-      
-      twoRef.current.addEventListener("load", function (e) {
-        console.log('hola2');
-        create({
-          mode: "scroll",
-          player: `#twoLottie`,
-          container: "#step2",
-          actions: [
-            {
-              visibility: [0.3, 0.8],
-              type: "seek",
-              frames: [0, 100],
-            },
-          ],
-        });
+    });
+
+    twoRef.current.addEventListener("load", function (e) {
+      console.log("hola2");
+      create({
+        mode: "scroll",
+        player: `#twoLottie`,
+        container: "#step2",
+        actions: [
+          {
+            visibility: [0.3, 0.8],
+            type: "seek",
+            frames: [0, 100],
+          },
+        ],
       });
-   
-      threeRef.current.addEventListener("load", function (e) {
-        create({
-          mode: "scroll",
-          player: `#threeLottie`,
-          container: "#step3",
-          actions: [
-            {
-              visibility: [0.3,0.8],
-              type: "seek",
-              frames: [0, 100],
-            },
-          ],
-        });
+    });
+
+    threeRef.current.addEventListener("load", function (e) {
+      create({
+        mode: "scroll",
+        player: `#threeLottie`,
+        container: "#step3",
+        actions: [
+          {
+            visibility: [0.3, 0.8],
+            type: "seek",
+            frames: [0, 100],
+          },
+        ],
       });
-    
-      fourRef.current.addEventListener("load", function (e) {
-        create({
-          mode: "scroll",
-          player: `#fourLottie`,
-          container: "#step4",
-          actions: [
-            {
-              visibility: [0.3, 0.8],
-              type: "seek",
-              frames: [0, 100],
-            },
-          ],
-        });
+    });
+
+    fourRef.current.addEventListener("load", function (e) {
+      create({
+        mode: "scroll",
+        player: `#fourLottie`,
+        container: "#step4",
+        actions: [
+          {
+            visibility: [0.3, 0.8],
+            type: "seek",
+            frames: [0, 100],
+          },
+        ],
       });
-  
-      fiveRef.current.addEventListener("load", function (e) {
-        create({
-          mode: "scroll",
-          player: `#fiveLottie`,
-          container: "#step5",
-          actions: [
-            {
-              visibility: [0.4, 0.6],
-              type: "seek",
-              frames: [0, 100],
-            },
-          ],
-        });
+    });
+
+    fiveRef.current.addEventListener("load", function (e) {
+      create({
+        mode: "scroll",
+        player: `#fiveLottie`,
+        container: "#step5",
+        actions: [
+          {
+            visibility: [0.3, 0.6],
+            type: "seek",
+            frames: [0, 100],
+          },
+        ],
       });
-    
+    });
   }, [data]);
 
   const update = (data) => {
@@ -328,39 +350,33 @@ function Scrollyteller() {
               id="firstLottie"
               mode="seek"
               src={animation[1]}
-              style={{ width: "1000px" }}
             ></lottie-player>
             <lottie-player
               ref={twoRef}
               id="twoLottie"
               mode="normal"
               src={animation[2]}
-              style={{ width: "1000px" }}
             ></lottie-player>
             <lottie-player
               ref={threeRef}
               id="threeLottie"
               mode="normal"
               src={animation[3]}
-              style={{ width: "1000px" }}
             ></lottie-player>
             <lottie-player
               ref={fourRef}
               id="fourLottie"
               mode="normal"
               src={animation[4]}
-              style={{ width: "1000px" }}
             ></lottie-player>
             <lottie-player
               ref={fiveRef}
               id="fiveLottie"
               mode="normal"
               src={animation[2]}
-              style={{ width: "1000px"}}
             ></lottie-player>
           </div>
           <div className="scroller" id="scroller">
-            
             <Scrollama
               onStepEnter={onStepEnter}
               onStepExit={onStepExit}
@@ -371,7 +387,11 @@ function Scrollyteller() {
               {items.length > 0
                 ? items.map((narr) => (
                     <Step data={narr.key} key={narr.key}>
-                      <div className="step" id={`step${narr.key}`}  style={{marginBottom:'100px'}} >
+                      <div
+                        className="step"
+                        id={`step${narr.key}`}
+                        style={{ marginBottom: "100px" }}
+                      >
                         <div className="desc" id={"desc" + narr.key}>
                           <Card>
                             <Card.Body>
@@ -384,7 +404,11 @@ function Scrollyteller() {
                   ))
                 : narration.map((narr) => (
                     <Step data={narr.key} key={narr.key}>
-                      <div className="step" id={`step${narr.key}`} style={{marginBottom:'100px'}}>
+                      <div
+                        className="step"
+                        id={`step${narr.key}`}
+                        style={{ marginBottom: "100px" }}
+                      >
                         <div className="desc" id={"desc" + narr.key}>
                           <Card>
                             <Card.Body>
