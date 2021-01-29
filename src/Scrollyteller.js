@@ -115,9 +115,8 @@ const introBlurb = (
   <div>
     <br></br>
     <p>
-      You can intro your story here, or delete this by deleting the "introBlurb"
-      constant from being defined and from being rendered. This text export from
-      goole sheet
+    We deliver animated explainer pages with tracking and remote control. The multimedia scrolls alongside the users control much like social media. 
+
     </p>
     <br></br>
   </div>
@@ -139,7 +138,7 @@ function Scrollyteller() {
   useEffect(() => {
     Tabletop.init({
       key:
-        "https://docs.google.com/spreadsheets/d/1EDvVinkf7BhEnctM0BrWU3WtXW4LuQoXYAM67qDRHZ8/edit?usp=sharing",
+        "https://docs.google.com/spreadsheets/d/1RfjhL5U0DvF1P6FtedRA4JuODHe0d1s8XbGgNKHmfdM/edit?usp=sharing",
       simpleSheet: true,
     })
       .then((items) => {
