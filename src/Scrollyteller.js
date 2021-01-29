@@ -19,19 +19,22 @@ import "@lottiefiles/lottie-player";
 import { create } from "@lottiefiles/lottie-interactivity";
 // import { Lottie } from './components/Lottie';
 
+
+
+
+//** values ​​handled in percentages, example 25 = 25% ***********/
+const fadeIn = 10; // the lottie appears completely when this percentage is reached
+const fadeOut = 75; // the lottie starts to disappear when this percentage is reached
+
+/****************** */
+
 const narration = require("./assets/data/narration.json");
 
 const narrativeStyle = css`
   img {
     max-width: 500px;
   }
-  ${
-    "" /* .main {
-    padding: 3vh 2vw;
-    display: flex;
-    justify-content: space-between;
-  } */
-  }
+
   .graphic {
     flex-basis: 50%;
     position: sticky;
@@ -54,7 +57,7 @@ const narrativeStyle = css`
     padding-top: 200px;
     padding-bottom: 200px;
     "&:last-child": {
-      margin-bottom: 0;
+      margin-bottom: 100px;
     }
     font-size: 20px;
   }
@@ -102,13 +105,12 @@ const narrativeStyle = css`
     .main {
       grid-template-columns: 1fr;
     }
-    .step { 
-      position:relative;
-      z-index:100;
+    .step {
+      position: relative;
+      z-index: 100;
       opacity: 0.9;
+      padding-top: 50px;
     }
-
-
   }
 `;
 const introBlurb = (
@@ -141,7 +143,7 @@ function Scrollyteller() {
       simpleSheet: true,
     })
       .then((items) => {
-        console.log(items);
+        // console.log(items);
         setItems({ items });
       })
       .catch((err) => console.warn(err));
@@ -182,11 +184,28 @@ function Scrollyteller() {
     return () => window.removeEventListener("resize", scroller.resize);
   }, []);
 
+  
+
+
   useEffect(() => {
-    console.log(data, "use");
+    const actLottie = document.querySelector(`lottie-player:nth-child(${data})`);
+
+    const auxFadeIn = fadeIn/100;
+    const auxFadeOut = fadeOut/100;
+
+
+    if (progress <= auxFadeIn) {
+      actLottie.style.opacity = `${progress * (1/auxFadeIn)}`;
+    } else if (progress > auxFadeIn && progress < auxFadeOut) {
+      actLottie.style.opacity = "1";
+    } else {
+      actLottie.style.opacity = `${(1 - progress) * (1/(1-auxFadeOut))}`;
+    }
+  }, [progress, data]);
+
+  useEffect(() => {
 
     oneRef.current.addEventListener("load", function (e) {
-      console.log("hola1");
       create({
         mode: "scroll",
         player: `#firstLottie`,
@@ -202,7 +221,6 @@ function Scrollyteller() {
     });
 
     twoRef.current.addEventListener("load", function (e) {
-      console.log("hola2");
       create({
         mode: "scroll",
         player: `#twoLottie`,
@@ -254,7 +272,7 @@ function Scrollyteller() {
         container: "#step5",
         actions: [
           {
-            visibility: [0.3, 0.6],
+            visibility: [0.3, 0.8],
             type: "seek",
             frames: [0, 100],
           },
@@ -312,7 +330,7 @@ function Scrollyteller() {
   const onStepExit = ({ element }) => {
     // console.log(element)
     setProgress(0);
-   // element.style.backgroundColor = "#fff";
+    // element.style.backgroundColor = "#fff";
   };
 
   const onStepProgress = ({ element, progress }) => {
