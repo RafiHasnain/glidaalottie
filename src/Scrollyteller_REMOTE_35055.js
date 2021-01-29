@@ -135,8 +135,6 @@ function Scrollyteller() {
   const threeRef = useRef(null);
   const fourRef = useRef(null);
   const fiveRef = useRef(null);
-  const refs = [oneRef, twoRef, threeRef, fourRef, fiveRef]
-  const ids = ['firstLottie', 'twoLottie', 'threeLottie', 'fourLottie', 'fiveLottie' ]
 
   useEffect(() => {
     Tabletop.init({
@@ -146,12 +144,7 @@ function Scrollyteller() {
     })
       .then((items) => {
         // console.log(items);
-<<<<<<< HEAD
-        // setItems( {items} );
-        setItems( items );
-=======
         setItems({ items });
->>>>>>> main
       })
       .catch((err) => console.warn(err));
   }, []);
@@ -211,40 +204,6 @@ function Scrollyteller() {
   }, [progress, data]);
 
   useEffect(() => {
-<<<<<<< HEAD
-    console.log(data, "use");
-    if (items.length > 1) {
-      oneRef.current.addEventListener("load", function (e) {
-        console.log("hola1");
-        create({
-          mode: "scroll",
-          player: `#firstLottie`,
-          container: "#step1",
-          actions: [
-            {
-              visibility: [0.3, 0.8],
-              type: "seek",
-              frames: [0, 100],
-            },
-          ],
-        });
-      });
-  
-      twoRef.current.addEventListener("load", function (e) {
-        console.log("hola2");
-        create({
-          mode: "scroll",
-          player: `#twoLottie`,
-          container: "#step2",
-          actions: [
-            {
-              visibility: [0.3, 0.8],
-              type: "seek",
-              frames: [0, 100],
-            },
-          ],
-        });
-=======
 
     oneRef.current.addEventListener("load", function (e) {
       create({
@@ -273,54 +232,37 @@ function Scrollyteller() {
             frames: [0, 100],
           },
         ],
->>>>>>> main
       });
-  
-      threeRef.current.addEventListener("load", function (e) {
-        create({
-          mode: "scroll",
-          player: `#threeLottie`,
-          container: "#step3",
-          actions: [
-            {
-              visibility: [0.3, 0.8],
-              type: "seek",
-              frames: [0, 100],
-            },
-          ],
-        });
+    });
+
+    threeRef.current.addEventListener("load", function (e) {
+      create({
+        mode: "scroll",
+        player: `#threeLottie`,
+        container: "#step3",
+        actions: [
+          {
+            visibility: [0.3, 0.8],
+            type: "seek",
+            frames: [0, 100],
+          },
+        ],
       });
-  
-      fourRef.current.addEventListener("load", function (e) {
-        create({
-          mode: "scroll",
-          player: `#fourLottie`,
-          container: "#step4",
-          actions: [
-            {
-              visibility: [0.3, 0.8],
-              type: "seek",
-              frames: [0, 100],
-            },
-          ],
-        });
+    });
+
+    fourRef.current.addEventListener("load", function (e) {
+      create({
+        mode: "scroll",
+        player: `#fourLottie`,
+        container: "#step4",
+        actions: [
+          {
+            visibility: [0.3, 0.8],
+            type: "seek",
+            frames: [0, 100],
+          },
+        ],
       });
-<<<<<<< HEAD
-  
-      fiveRef.current.addEventListener("load", function (e) {
-        create({
-          mode: "scroll",
-          player: `#fiveLottie`,
-          container: "#step5",
-          actions: [
-            {
-              visibility: [0.3, 0.6],
-              type: "seek",
-              frames: [0, 100],
-            },
-          ],
-        });
-=======
     });
 
     fiveRef.current.addEventListener("load", function (e) {
@@ -335,10 +277,9 @@ function Scrollyteller() {
             frames: [0, 100],
           },
         ],
->>>>>>> main
       });
-    }
-  }, [data, items.length]);
+    });
+  }, [data]);
 
   const update = (data) => {
     var src = "./assets/images/" + data + ".png";
@@ -347,7 +288,6 @@ function Scrollyteller() {
   };
 
   const onStepEnter = ({ data }) => {
-    console.log(data)
     if (data === "1") {
       document.getElementById("firstLottie").style.display = "block";
       document.getElementById("threeLottie").style.display = "none";
@@ -413,112 +353,95 @@ function Scrollyteller() {
     5: "https://assets9.lottiefiles.com/packages/lf20_9wjm14ni.json",
   };
   // console.log(animation[1]);
-  
-  // console.log(items.length)
+
   return (
     <div>
-        <div css={narrativeStyle}>
-          <div className="blurb">
-            <Card>
-              <div className="card-text-s">{introBlurb}</div>
-            </Card>
+      <div css={narrativeStyle}>
+        <div className="blurb">
+          <Card>
+            <div className="card-text-s">{introBlurb}</div>
+          </Card>
+        </div>
+        <div className="main">
+          <div className="graphic">
+            <lottie-player
+              ref={oneRef}
+              id="firstLottie"
+              mode="seek"
+              src={animation[1]}
+            ></lottie-player>
+            <lottie-player
+              ref={twoRef}
+              id="twoLottie"
+              mode="normal"
+              src={animation[2]}
+            ></lottie-player>
+            <lottie-player
+              ref={threeRef}
+              id="threeLottie"
+              mode="normal"
+              src={animation[3]}
+            ></lottie-player>
+            <lottie-player
+              ref={fourRef}
+              id="fourLottie"
+              mode="normal"
+              src={animation[4]}
+            ></lottie-player>
+            <lottie-player
+              ref={fiveRef}
+              id="fiveLottie"
+              mode="normal"
+              src={animation[2]}
+            ></lottie-player>
           </div>
-          <div className="main">
-            <div className="graphic">
-              {
-                items.length > 2 && items.url_lottie !== '' ?
-                  items.map((item,idx) => (
-                      <lottie-player
-                        ref={refs[idx]}
-                        id={ids[idx]}
-                        mode="seek"
-                        src={item.url_lottie}
-                      ></lottie-player>
-                    ))
-                  : 
-                  <div>
-                    Loading....
-                  </div>
-              }
-              
-              {/*<lottie-player
-                ref={oneRef}
-                id="firstLottie"
-                mode="seek"
-                src={animation[1]}
-              ></lottie-player>
-              <lottie-player
-                ref={twoRef}
-                id="twoLottie"
-                mode="normal"
-                src={animation[2]}
-              ></lottie-player>
-              <lottie-player
-                ref={threeRef}
-                id="threeLottie"
-                mode="normal"
-                src={animation[3]}
-              ></lottie-player>
-              <lottie-player
-                ref={fourRef}
-                id="fourLottie"
-                mode="normal"
-                src={animation[4]}
-              ></lottie-player>
-              <lottie-player
-                ref={fiveRef}
-                id="fiveLottie"
-                mode="normal"
-                src={animation[2]}
-              ></lottie-player>*/}
-            </div>
-            <div className="scroller" id="scroller">
-              <Scrollama
-                onStepEnter={onStepEnter}
-                onStepExit={onStepExit}
-                progress
-                onStepProgress={onStepProgress}
-                offset={0.33}
-              >
-                {items.length > 0
-                  ? items.map((narr) => (
-                      <Step data={narr.key} key={narr.key}>
-                        <div
-                          className="step"
-                          id={`step${narr.key}`}
-                          style={{ marginBottom: "100px" }}
-                        >
-                          <div className="desc" id={"desc" + narr.key}>
-                            <Card>
-                              <Card.Body>
-                                <Card.Text>{narr.description}</Card.Text>
-                              </Card.Body>
-                            </Card>
-                          </div>
+          <div className="scroller" id="scroller">
+            <Scrollama
+              onStepEnter={onStepEnter}
+              onStepExit={onStepExit}
+              progress
+              onStepProgress={onStepProgress}
+              offset={0.33}
+            >
+              {items.length > 0
+                ? items.map((narr) => (
+                    <Step data={narr.key} key={narr.key}>
+                      <div
+                        className="step"
+                        id={`step${narr.key}`}
+                        style={{ marginBottom: "100px" }}
+                      >
+                        <div className="desc" id={"desc" + narr.key}>
+                          <Card>
+                            <Card.Body>
+                              <Card.Text>{narr.description}</Card.Text>
+                            </Card.Body>
+                          </Card>
                         </div>
-                      </Step>
-                    ))
-                  : narration.map((narr) => (
-                      <Step data={narr.key} key={narr.key}>
-                        <div
-                          className="step"
-                          id={`step${narr.key}`}
-                          style={{ marginBottom: "100px" }}
-                        >
-                          <div className="desc" id={"desc" + narr.key}>
-                            <Card>
-                              <Card.Body>
-                                <Card.Text>{narr.description}</Card.Text>
-                              </Card.Body>
-                            </Card>
-                          </div>
+                      </div>
+                    </Step>
+                  ))
+                : narration.map((narr) => (
+                    <Step data={narr.key} key={narr.key}>
+                      <div
+                        className="step"
+                        id={`step${narr.key}`}
+                        style={{ marginBottom: "100px" }}
+                      >
+                        <div className="desc" id={"desc" + narr.key}>
+                          <Card>
+                            <Card.Body>
+                              <Card.Text>{narr.description}</Card.Text>
+                            </Card.Body>
+                          </Card>
                         </div>
-                      </Step>
-                    ))}
-              </Scrollama>
-            </div>
+                      </div>
+                    </Step>
+                  ))}
+            </Scrollama>
           </div>
         </div>
+      </div>
     </div>
   );
 }
