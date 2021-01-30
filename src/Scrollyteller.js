@@ -141,11 +141,11 @@ function Scrollyteller() {
   useEffect(() => {
     Tabletop.init({
       key:
-        "https://docs.google.com/spreadsheets/d/1EDvVinkf7BhEnctM0BrWU3WtXW4LuQoXYAM67qDRHZ8/edit?usp=sharing",
+        "https://docs.google.com/spreadsheets/d/1RfjhL5U0DvF1P6FtedRA4JuODHe0d1s8XbGgNKHmfdM/edit#gid=0",
       simpleSheet: true,
     })
       .then((items) => {
-        // console.log(items);
+         console.log(items);
         // setItems( {items} );
         setItems( items );
       })
