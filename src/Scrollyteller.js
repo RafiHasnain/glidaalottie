@@ -19,19 +19,22 @@ import "@lottiefiles/lottie-player";
 import { create } from "@lottiefiles/lottie-interactivity";
 // import { Lottie } from './components/Lottie';
 
+
+
+
+//** values ​​handled in percentages, example 25 = 25% ***********/
+const fadeIn = 10; // the lottie appears completely when this percentage is reached
+const fadeOut = 75; // the lottie starts to disappear when this percentage is reached
+
+/****************** */
+
 const narration = require("./assets/data/narration.json");
 
 const narrativeStyle = css`
   img {
     max-width: 500px;
   }
-  ${
-    "" /* .main {
-    padding: 3vh 2vw;
-    display: flex;
-    justify-content: space-between;
-  } */
-  }
+
   .graphic {
     flex-basis: 50%;
     position: sticky;
@@ -54,7 +57,7 @@ const narrativeStyle = css`
     padding-top: 200px;
     padding-bottom: 200px;
     "&:last-child": {
-      margin-bottom: 0;
+      margin-bottom: 100px;
     }
     font-size: 20px;
   }
@@ -102,13 +105,12 @@ const narrativeStyle = css`
     .main {
       grid-template-columns: 1fr;
     }
-    .step { 
-      position:relative;
-      z-index:100;
+    .step {
+      position: relative;
+      z-index: 100;
       opacity: 0.9;
+      padding-top: 50px;
     }
-
-
   }
 `;
 const introBlurb = (
@@ -185,11 +187,29 @@ function Scrollyteller() {
     return () => window.removeEventListener("resize", scroller.resize);
   }, []);
 
+  
+
+
   useEffect(() => {
-    console.log(data, "use");
+    const actLottie = document.querySelector(`lottie-player:nth-child(${data})`);
+
+    const auxFadeIn = fadeIn/100;
+    const auxFadeOut = fadeOut/100;
+
+    if (items.length > 1) {
+      if (progress <= auxFadeIn) {
+        actLottie.style.opacity = `${progress * (1/auxFadeIn)}`;
+      } else if (progress > auxFadeIn && progress < auxFadeOut) {
+        actLottie.style.opacity = "1";
+      } else {
+        actLottie.style.opacity = `${(1 - progress) * (1/(1-auxFadeOut))}`;
+      }
+    }
+  }, [progress, data, items.length]);
+
+   useEffect(() => {
     if (items.length > 1) {
       oneRef.current.addEventListener("load", function (e) {
-        console.log("hola1");
         create({
           mode: "scroll",
           player: `#firstLottie`,
@@ -205,7 +225,6 @@ function Scrollyteller() {
       });
   
       twoRef.current.addEventListener("load", function (e) {
-        console.log("hola2");
         create({
           mode: "scroll",
           player: `#twoLottie`,
@@ -257,7 +276,7 @@ function Scrollyteller() {
           container: "#step5",
           actions: [
             {
-              visibility: [0.3, 0.6],
+              visibility: [0.3, 0.8],
               type: "seek",
               frames: [0, 100],
             },
@@ -274,37 +293,43 @@ function Scrollyteller() {
   };
 
   const onStepEnter = ({ data }) => {
-    console.log(data)
-    if (data === "1") {
-      document.getElementById("firstLottie").style.display = "block";
-      document.getElementById("threeLottie").style.display = "none";
-      document.getElementById("fourLottie").style.display = "none";
-      document.getElementById("twoLottie").style.display = "none";
-      document.getElementById("fiveLottie").style.display = "none";
-    } else if (data === "2") {
-      document.getElementById("firstLottie").style.display = "none";
-      document.getElementById("threeLottie").style.display = "none";
-      document.getElementById("fourLottie").style.display = "none";
-      document.getElementById("twoLottie").style.display = "block";
-      document.getElementById("fiveLottie").style.display = "none";
-    } else if (data === "3") {
-      document.getElementById("firstLottie").style.display = "none";
-      document.getElementById("threeLottie").style.display = "block";
-      document.getElementById("fourLottie").style.display = "none";
-      document.getElementById("twoLottie").style.display = "none";
-      document.getElementById("fiveLottie").style.display = "none";
-    } else if (data === "4") {
-      document.getElementById("firstLottie").style.display = "none";
-      document.getElementById("threeLottie").style.display = "none";
-      document.getElementById("fourLottie").style.display = "block";
-      document.getElementById("twoLottie").style.display = "none";
-      document.getElementById("fiveLottie").style.display = "none";
-    } else if (data === "5") {
-      document.getElementById("firstLottie").style.display = "none";
-      document.getElementById("threeLottie").style.display = "none";
-      document.getElementById("fourLottie").style.display = "none";
-      document.getElementById("twoLottie").style.display = "none";
-      document.getElementById("fiveLottie").style.display = "block";
+    const timeout = 2000;
+    const one = document.getElementById("firstLottie");
+    const two = document.getElementById("twoLottie");
+    const three = document.getElementById("threeLottie");
+    const four = document.getElementById("fourLottie");
+    const five = document.getElementById("fiveLottie");
+    const elExist = one !== null && two !== null && three !== null && four !== null && five !== null;
+    if (data === "1" && elExist ) {
+        one.style.display = "block";
+        three.style.display = "none";
+        four.style.display = "none";
+        two.style.display = "none";
+        five.style.display = "none";   
+    } else if (data === "2" && elExist) {
+        one.style.display = "none";
+        three.style.display = "none";
+        four.style.display = "none";
+        two.style.display = "block";
+        five.style.display = "none";
+    } else if (data === "3" && elExist) {
+        one.style.display = "none";
+        three.style.display = "block";
+        four.style.display = "none";
+        two.style.display = "none";
+        five.style.display = "none";
+    } else if (data === "4" && elExist) {
+        one.style.display = "none";
+        three.style.display = "none";
+        four.style.display = "block";
+        two.style.display = "none";
+        five.style.display = "none";
+    } else if (data === "5" && elExist) {
+        one.style.display = "none";
+        three.style.display = "none";
+        four.style.display = "none";
+        two.style.display = "none";
+        five.style.display = "block";
     }
     setData(data);
     // update(data);
@@ -317,7 +342,7 @@ function Scrollyteller() {
   const onStepExit = ({ element }) => {
     // console.log(element)
     setProgress(0);
-   // element.style.backgroundColor = "#fff";
+    // element.style.backgroundColor = "#fff";
   };
 
   const onStepProgress = ({ element, progress }) => {
@@ -400,49 +425,51 @@ function Scrollyteller() {
               ></lottie-player>*/}
             </div>
             <div className="scroller" id="scroller">
-              <Scrollama
-                onStepEnter={onStepEnter}
-                onStepExit={onStepExit}
-                progress
-                onStepProgress={onStepProgress}
-                offset={0.33}
-              >
-                {items.length > 0
-                  ? items.map((narr) => (
-                      <Step data={narr.key} key={narr.key}>
-                        <div
-                          className="step"
-                          id={`step${narr.key}`}
-                          style={{ marginBottom: "100px" }}
-                        >
-                          <div className="desc" id={"desc" + narr.key}>
-                            <Card>
-                              <Card.Body>
-                                <Card.Text>{narr.description}</Card.Text>
-                              </Card.Body>
-                            </Card>
+              
+                <Scrollama
+                  onStepEnter={onStepEnter}
+                  onStepExit={onStepExit}
+                  progress
+                  onStepProgress={onStepProgress}
+                  offset={0.33}
+                >
+                  {items.length > 0
+                    ? items.map((narr) => (
+                        <Step data={narr.key} key={narr.key}>
+                          <div
+                            className="step"
+                            id={`step${narr.key}`}
+                            style={{ marginBottom: "100px" }}
+                          >
+                            <div className="desc" id={"desc" + narr.key}>
+                              <Card>
+                                <Card.Body>
+                                  <Card.Text>{narr.description}</Card.Text>
+                                </Card.Body>
+                              </Card>
+                            </div>
                           </div>
-                        </div>
-                      </Step>
-                    ))
-                  : narration.map((narr) => (
-                      <Step data={narr.key} key={narr.key}>
-                        <div
-                          className="step"
-                          id={`step${narr.key}`}
-                          style={{ marginBottom: "100px" }}
-                        >
-                          <div className="desc" id={"desc" + narr.key}>
-                            <Card>
-                              <Card.Body>
-                                <Card.Text>{narr.description}</Card.Text>
-                              </Card.Body>
-                            </Card>
+                        </Step>
+                      ))
+                    : narration.map((narr) => (
+                        <Step data={narr.key} key={narr.key}>
+                          <div
+                            className="step"
+                            id={`step${narr.key}`}
+                            style={{ marginBottom: "100px" }}
+                          >
+                            <div className="desc" id={"desc" + narr.key}>
+                              <Card>
+                                <Card.Body>
+                                  <Card.Text>{narr.description}</Card.Text>
+                                </Card.Body>
+                              </Card>
+                            </div>
                           </div>
-                        </div>
-                      </Step>
-                    ))}
-              </Scrollama>
+                        </Step>
+                      ))}
+                </Scrollama>
+               
             </div>
           </div>
         </div>
