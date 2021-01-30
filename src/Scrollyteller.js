@@ -293,50 +293,11 @@ function Scrollyteller() {
   };
 
   const onStepEnter = ({ data }) => {
-    const timeout = 2000;
-    const one = document.getElementById("firstLottie");
-    const two = document.getElementById("twoLottie");
-    const three = document.getElementById("threeLottie");
-    const four = document.getElementById("fourLottie");
-    const five = document.getElementById("fiveLottie");
-    const elExist = one !== null && two !== null && three !== null && four !== null && five !== null;
-    if (data === "1" && elExist ) {
-        one.style.display = "block";
-        three.style.display = "none";
-        four.style.display = "none";
-        two.style.display = "none";
-        five.style.display = "none";   
-    } else if (data === "2" && elExist) {
-        one.style.display = "none";
-        three.style.display = "none";
-        four.style.display = "none";
-        two.style.display = "block";
-        five.style.display = "none";
-    } else if (data === "3" && elExist) {
-        one.style.display = "none";
-        three.style.display = "block";
-        four.style.display = "none";
-        two.style.display = "none";
-        five.style.display = "none";
-    } else if (data === "4" && elExist) {
-        one.style.display = "none";
-        three.style.display = "none";
-        four.style.display = "block";
-        two.style.display = "none";
-        five.style.display = "none";
-    } else if (data === "5" && elExist) {
-        one.style.display = "none";
-        three.style.display = "none";
-        four.style.display = "none";
-        two.style.display = "none";
-        five.style.display = "block";
-    }
+    
+    document.querySelectorAll('lottie-player')
+    .forEach((lottie, index) => lottie.style.display = ((index+1)==data) ? 'block' : 'none')
     setData(data);
-    // update(data);
     setProgress(0);
-    // this.setState( { data });
-    // console.log(data)
-    //this.update(data);
   };
 
   const onStepExit = ({ element }) => {
@@ -385,6 +346,7 @@ function Scrollyteller() {
                         id={ids[idx]}
                         mode="seek"
                         src={item.url_lottie}
+                        key={item.key}
                       ></lottie-player>
                     ))
                   : 
