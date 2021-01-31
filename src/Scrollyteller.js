@@ -19,7 +19,9 @@ import "@lottiefiles/lottie-player";
 import { create } from "@lottiefiles/lottie-interactivity";
 // import { Lottie } from './components/Lottie';
 
+import ParticlesAnimation from "./ParticlesAnimation";
 
+import background from "./background.png"
 
 
 //** values ​​handled in percentages, example 25 = 25% ***********/
@@ -28,6 +30,9 @@ const fadeOut = 75; // the lottie starts to disappear when this percentage is re
 
 /****************** */
 
+
+
+
 const narration = require("./assets/data/narration.json");
 
 const narrativeStyle = css`
@@ -35,7 +40,10 @@ const narrativeStyle = css`
     max-width: 500px;
   }
 
+  
+
   .graphic {
+
     flex-basis: 50%;
     position: sticky;
     top: 15vh;
@@ -89,10 +97,14 @@ const narrativeStyle = css`
     font-size: 24px !important;
   }
 
+  lottie-player {
+    transition: all ease 100ms;
+  }
+
   .main {
+    position:relative;
     display: grid;
     grid-template-columns: 3fr 1fr;
-    margin: 0px 10px;
   }
 
   @media screen and (max-width: 940px) {
@@ -138,7 +150,11 @@ function Scrollyteller() {
   const refs = [oneRef, twoRef, threeRef, fourRef, fiveRef]
   const ids = ['firstLottie', 'twoLottie', 'threeLottie', 'fourLottie', 'fiveLottie' ]
 
+
+
+
   useEffect(() => {
+
     Tabletop.init({
       key:
         "https://docs.google.com/spreadsheets/d/1RfjhL5U0DvF1P6FtedRA4JuODHe0d1s8XbGgNKHmfdM/edit#gid=0",
@@ -150,6 +166,8 @@ function Scrollyteller() {
         setItems( items );
       })
       .catch((err) => console.warn(err));
+
+      
   }, []);
 
   useEffect(() => {
@@ -198,12 +216,20 @@ function Scrollyteller() {
 
     if (items.length > 1) {
       if (progress <= auxFadeIn) {
-        actLottie.style.opacity = `${progress * (1/auxFadeIn)}`;
+        
+
+          actLottie.style.opacity = `${progress * (1/auxFadeIn)}`;
+        
+
+        
+
       } else if (progress > auxFadeIn && progress < auxFadeOut) {
         actLottie.style.opacity = "1";
       } else {
         actLottie.style.opacity = `${(1 - progress) * (1/(1-auxFadeOut))}`;
       }
+
+      
     }
   }, [progress, data, items.length]);
 
@@ -331,12 +357,13 @@ function Scrollyteller() {
   return (
     <div>
         <div css={narrativeStyle}>
-          <div className="blurb">
-            <Card>
-              <div className="card-text-s">{introBlurb}</div>
-            </Card>
+         
+          <div className="particles__container" style={{position:'relative'}}>
+            <ParticlesAnimation />
+            <iframe style={{width:'40vw', height:'40vw', position:'absolute', left:'calc(60vw/2)', top:'100px'}} title="brain" src="https://clara.io/embed/25ca638e-16c2-4d87-8fb6-70cf6b42edcf?renderer=webgl"  ></iframe>
           </div>
-          <div className="main">
+          <div id="chart"></div>
+          <div className="main" style={{backgroundImage:`url('${background}')`}}>
             <div className="graphic">
               {
                 items.length > 2 && items.url_lottie !== '' ?
@@ -355,36 +382,7 @@ function Scrollyteller() {
                   </div>
               }
               
-              {/*<lottie-player
-                ref={oneRef}
-                id="firstLottie"
-                mode="seek"
-                src={animation[1]}
-              ></lottie-player>
-              <lottie-player
-                ref={twoRef}
-                id="twoLottie"
-                mode="normal"
-                src={animation[2]}
-              ></lottie-player>
-              <lottie-player
-                ref={threeRef}
-                id="threeLottie"
-                mode="normal"
-                src={animation[3]}
-              ></lottie-player>
-              <lottie-player
-                ref={fourRef}
-                id="fourLottie"
-                mode="normal"
-                src={animation[4]}
-              ></lottie-player>
-              <lottie-player
-                ref={fiveRef}
-                id="fiveLottie"
-                mode="normal"
-                src={animation[2]}
-              ></lottie-player>*/}
+             
             </div>
             <div className="scroller" id="scroller">
               
