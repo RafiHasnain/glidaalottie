@@ -21,8 +21,10 @@ import { create } from "@lottiefiles/lottie-interactivity";
 
 import ParticlesAnimation from "./ParticlesAnimation";
 
+
 import background from "./background.png"
 
+// import {myScrollyTellerInstance} from "./chart"
 
 //** values ​​handled in percentages, example 25 = 25% ***********/
 const fadeIn = 10; // the lottie appears completely when this percentage is reached
@@ -30,7 +32,7 @@ const fadeOut = 75; // the lottie starts to disappear when this percentage is re
 
 /****************** */
 
-
+// console.log(myScrollyTellerInstance);
 
 
 const narration = require("./assets/data/narration.json");
@@ -167,6 +169,7 @@ function Scrollyteller() {
       })
       .catch((err) => console.warn(err));
 
+      // myScrollyTellerInstance.render();
       
   }, []);
 
@@ -360,7 +363,7 @@ function Scrollyteller() {
          
           <div className="particles__container" style={{position:'relative'}}>
             <ParticlesAnimation />
-            <iframe style={{width:'40vw', height:'40vw', position:'absolute', left:'calc(60vw/2)', top:'100px'}} title="brain" src="https://clara.io/embed/25ca638e-16c2-4d87-8fb6-70cf6b42edcf?renderer=webgl"  ></iframe>
+            {/* <iframe style={{width:'40vw', height:'40vw', position:'absolute', left:'calc(60vw/2)', top:'100px'}} title="brain" src="https://clara.io/embed/25ca638e-16c2-4d87-8fb6-70cf6b42edcf?renderer=webgl"  ></iframe> */}
           </div>
           <div id="chart"></div>
           <div className="main" style={{backgroundImage:`url('${background}')`}}>

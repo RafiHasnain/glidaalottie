@@ -1,9 +1,41 @@
-import React, { useRef, useMemo } from "react";
+import React, { useRef, useMemo, Suspense } from "react";
 import { Canvas, useFrame } from "react-three-fiber";
 import { Helmet } from "react-helmet";
+import { useLoader, extend, useThree } from 'react-three-fiber'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import brain from './brain-simple-mesh.glb'
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+// import { PerspectiveCamera } from '@react-three/drei/PerspectiveCamera'
 import * as THREE from "three";
 
 const numParticles = 2500;
+
+extend({ OrbitControls });
+
+const Brain = (props) => {
+ 
+  const gltf = useLoader(GLTFLoader, brain)
+  console.log(gltf)
+  // return null;
+   return <primitive object={gltf.scene} position={[0, 0, 0]} />
+}
+
+const Scene = () => {
+  const {
+    camera,
+    gl: { domElement }
+  } = useThree()
+  return (
+    <>
+      <Suspense fallback={null}>
+            <ambientLight intensity={0.2} />
+            <spotLight intensity={0.8} position={[300, 300, 400]} />
+            <Brain />
+            <orbitControls args={[camera, domElement]} />
+        </Suspense>
+    </>
+  )
+}
 
 const Map = (props) => {
   const nodes = useRef([]);
@@ -105,9 +137,14 @@ export default function ParticlesAnimation() {
         </script>
       </Helmet>
 
-      <div className="particles" style={{height:'100vh', position:'relative', top:0, width:'97vw', left:'calc(3vw/2)', zIndex:'-1'}}>
+      <div className="particles" style={{height:'100vh', position:'absolute', top:0, width:'97vw', left:'calc(3vw/2)', zIndex:'-1'}}>
         <Canvas gl camera={{ position: [0, 500, 1000], far: 10000 }}>
           <Map  />
+        </Canvas>
+      </div>
+      <div className="brain" style={{height:'100vh', position:'relative', top:0, width:'97vw', left:'calc(3vw/2)', zIndex:'1'}}>
+        <Canvas camera={{ position: [0, 0, 10] }}>
+          <Scene />
         </Canvas>
       </div>
     </>
