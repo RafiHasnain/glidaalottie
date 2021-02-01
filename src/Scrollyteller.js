@@ -23,7 +23,9 @@ import ParticlesAnimation from "./ParticlesAnimation";
 
 
 import Chart from "./Chart"
-// import {myScrollyTellerInstance} from "./chart"
+
+
+
 
 //** values ​​handled in percentages, example 25 = 25% ***********/
 const fadeIn = 10; // the lottie appears completely when this percentage is reached
@@ -164,7 +166,11 @@ function Scrollyteller() {
       .then((items) => {
          console.log(items);
         // setItems( {items} );
-        setItems( items );
+
+        items[0] = {key:"1", description:'lottie from public', url_lottie:'lf30_izlxd1pm.json'}
+
+
+        setItems(items);
       })
       .catch((err) => console.warn(err));
 
