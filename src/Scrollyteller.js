@@ -22,7 +22,7 @@ import { create } from "@lottiefiles/lottie-interactivity";
 import ParticlesAnimation from "./ParticlesAnimation";
 
 
-
+import Chart from "./Chart"
 // import {myScrollyTellerInstance} from "./chart"
 
 //** values ​​handled in percentages, example 25 = 25% ***********/
@@ -365,6 +365,7 @@ function Scrollyteller() {
             {/* <iframe style={{width:'40vw', height:'40vw', position:'absolute', left:'calc(60vw/2)', top:'100px'}} title="brain" src="https://clara.io/embed/25ca638e-16c2-4d87-8fb6-70cf6b42edcf?renderer=webgl"  ></iframe> */}
           </div>
           <div id="chart"></div>
+          <Chart />
           <div className="main">
             <div className="graphic">
               {
