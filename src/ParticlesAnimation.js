@@ -4,9 +4,9 @@ import { Helmet } from "react-helmet";
 import { useLoader, extend, useThree } from 'react-three-fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import brain from './brain-simple-mesh.glb'
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 // import { PerspectiveCamera } from '@react-three/drei/PerspectiveCamera'
 import * as THREE from "three";
+import { OrbitControls, Stars } from '@react-three/drei'
 
 const numParticles = 2500;
 
@@ -17,8 +17,9 @@ const Brain = (props) => {
   const gltf = useLoader(GLTFLoader, brain)
   console.log(gltf)
   // return null;
-   return <primitive object={gltf.scene} position={[0, 0, 0]} />
+   return <primitive object={gltf.scene} position={[0, 0, -10]} />
 }
+
 
 const Scene = () => {
   const {
@@ -31,13 +32,14 @@ const Scene = () => {
             <ambientLight intensity={0.2} />
             <spotLight intensity={0.8} position={[300, 300, 400]} />
             <Brain />
-            <orbitControls args={[camera, domElement]} />
+            
         </Suspense>
     </>
   )
 }
 
 const Map = (props) => {
+
   const nodes = useRef([]);
   const scale = useRef([]);
   const waves = useRef();
@@ -65,6 +67,7 @@ const Map = (props) => {
   }, []);
   nodes.current = positions;
   scale.current = scales;
+  
 
   useFrame(({ clock }) => {
     const positions = waves.current.__objects[0].attributes.position.array;
@@ -93,6 +96,7 @@ const Map = (props) => {
 
   return (
     <points {...props} ref={waves}>
+      
       <bufferGeometry attach={"geometry"}>
         <bufferAttribute
           attachObject={["attributes", "position"]}
@@ -124,7 +128,16 @@ const Map = (props) => {
   );
 };
 
+function Dolly() {
+  // This one makes the camera move in and out
+  useFrame(({ clock, camera }) => {
+    camera.position.z = 50 + Math.sin(clock.getElapsedTime()) * 30
+  })
+  return null
+}
+
 export default function ParticlesAnimation() {
+  
   return (
     <>
       <Helmet>
@@ -136,15 +149,26 @@ export default function ParticlesAnimation() {
           {`uniform vec3 color;\nvoid main() {\n\tif ( length( gl_PointCoord - vec2( 0.5, 0.5 ) ) > 0.475 ) discard;\n\tgl_FragColor = vec4( color, 1.0 );\n}`}
         </script>
       </Helmet>
-
+      <div style={{color:'white'}}>
       <div className="particles" style={{height:'100vh', position:'absolute', top:0, width:'97vw', left:'calc(3vw/2)', zIndex:'-1'}}>
-        <Canvas gl camera={{ position: [0, 500, 1000], far: 10000 }}>
-          <Map  />
-        </Canvas>
-      </div>
-      <div className="brain" style={{height:'100vh', position:'relative', top:0, width:'97vw', left:'calc(3vw/2)', zIndex:'1'}}>
-        <Canvas camera={{ position: [0, 0, 10] }}>
+        <Canvas 
+        
+        gl 
+        camera={{ position: [0, 0, 1000], far: 10000 }}>
+          <mesh>
+            <sphereBufferGeometry args={[0.7, 1000, 500]} attach="geometry" />
+            <meshStandardMaterial color="hotpink" />
+          </mesh>
           <Scene />
+          
+        <Map  />
+        <Dolly />
+        </Canvas>
+      </div></div>
+      <div className="brain" style={{height:'100vh', position:'relative', top:0, width:'97vw', left:'calc(3vw/2)', zIndex:'1'}}>
+      <Canvas camera={{ position: [0, 0, 10] }}>
+
+          
         </Canvas>
       </div>
     </>
