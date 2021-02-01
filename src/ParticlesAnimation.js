@@ -150,9 +150,9 @@ export default function ParticlesAnimation() {
         </script>
       </Helmet>
       <div style={{color:'white'}}>
-      <div className="particles" style={{height:'100vh', position:'absolute', top:0, width:'97vw', left:'calc(3vw/2)', zIndex:'-1'}}>
+      <div className="particles" style={{height:'100vh', position:'absolute', top:0, width:'100vw', left:'calc(3vw/2)', zIndex:'-1'}}>
         <Canvas 
-        
+        style={{ background: "white" }}
         gl 
         camera={{ position: [0, 0, 1000], far: 10000 }}>
           <mesh>
