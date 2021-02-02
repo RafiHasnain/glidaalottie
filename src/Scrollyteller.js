@@ -259,9 +259,9 @@ function Scrollyteller() {
     <div>
       <div css={narrativeStyle}>
         <div className="particles__container" style={{ position: "relative" }}>
-          {/* <ParticlesAnimation /> */}
+          <ParticlesAnimation />
         </div>
-        {/* <Chart /> */}
+        <Chart />
 
       
       <div style={{width:'100%', display:'flex', justifyContent:'center', flexDirection:'column', 'alignItems':'center', position:'absolute', 'top':'10px', zIndex:'100'}}>
