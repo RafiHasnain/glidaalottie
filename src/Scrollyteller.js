@@ -21,15 +21,12 @@ import { create } from "@lottiefiles/lottie-interactivity";
 
 import ParticlesAnimation from "./ParticlesAnimation";
 import VideoBackground from "./VideoBackground";
-import SiraBackground from "./SiraBackground"
+import SiraBackground from "./SiraBackground";
 
-import Video from "./video.gif"
-import Sira from "./sira.gif"
+import Video from "./video.gif";
+import Sira from "./sira.gif";
 
-import Chart from "./Chart"
-
-
-
+import Chart from "./Chart";
 
 //** values ​​handled in percentages, example 25 = 25% ***********/
 const fadeIn = 10; // the lottie appears completely when this percentage is reached
@@ -39,7 +36,6 @@ const fadeOut = 85; // the lottie starts to disappear when this percentage is re
 
 // console.log(myScrollyTellerInstance);
 
-
 const narration = require("./assets/data/narration.json");
 
 const narrativeStyle = css`
@@ -47,10 +43,7 @@ const narrativeStyle = css`
     max-width: 100%;
   }
 
-  
-
   .graphic {
-
     flex-basis: 50%;
     position: sticky;
     top: 15vh;
@@ -109,7 +102,7 @@ const narrativeStyle = css`
   }
 
   .main {
-    position:relative;
+    position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
   }
@@ -149,21 +142,17 @@ function Scrollyteller() {
   const [progress, setProgress] = useState(0);
   const [src, setSrc] = useState("");
   const [items, setItems] = useState([]);
-  
 
   useEffect(() => {
-
     Tabletop.init({
       key:
         "https://docs.google.com/spreadsheets/d/1RfjhL5U0DvF1P6FtedRA4JuODHe0d1s8XbGgNKHmfdM/edit#gid=0",
       simpleSheet: true,
     })
       .then((items) => {
-
         setItems(items);
       })
       .catch((err) => console.warn(err));
-
   }, []);
 
   useEffect(() => {
@@ -201,42 +190,33 @@ function Scrollyteller() {
     return () => window.removeEventListener("resize", scroller.resize);
   }, []);
 
-  
-
-
   useEffect(() => {
-    const actLottie = document.querySelector(`lottie-player:nth-child(${data})`);
+    const actLottie = document.querySelector(
+      `lottie-player:nth-child(${data})`
+    );
 
-    const auxFadeIn = fadeIn/100;
-    const auxFadeOut = fadeOut/100;
+    const auxFadeIn = fadeIn / 100;
+    const auxFadeOut = fadeOut / 100;
 
     if (items.length > 1) {
       if (progress <= auxFadeIn) {
-        
-
-          actLottie.style.opacity = `${progress * (1/auxFadeIn)}`
-        
-
+        actLottie.style.opacity = `${progress * (1 / auxFadeIn)}`;
       } else if (progress > auxFadeIn && progress < auxFadeOut) {
         actLottie.style.opacity = "1";
       } else {
-        actLottie.style.opacity = `${(1 - progress) * (1/(1-auxFadeOut))}`;
+        actLottie.style.opacity = `${(1 - progress) * (1 / (1 - auxFadeOut))}`;
       }
-
-      
     }
   }, [progress, data, items.length]);
 
-   useEffect(() => {
-
-if(items.length > 0)  {
-      document.querySelectorAll('lottie-player').forEach((lottie,i) => {
-
-        lottie.addEventListener('load',function (e) {
+  useEffect(() => {
+    if (items.length > 0) {
+      document.querySelectorAll("lottie-player").forEach((lottie, i) => {
+        lottie.addEventListener("load", function (e) {
           create({
             mode: "scroll",
-            player: `#lottie${i+1}`,
-            container: `#step${i+1}`,
+            player: `#lottie${i + 1}`,
+            container: `#step${i + 1}`,
             actions: [
               {
                 visibility: [0.3, 0.8],
@@ -246,16 +226,17 @@ if(items.length > 0)  {
             ],
           });
         });
-      })
+      });
     }
-      
   }, [items]);
 
-
   const onStepEnter = ({ data }) => {
-    
-    document.querySelectorAll('lottie-player')
-    .forEach((lottie, index) => lottie.style.display = ((index+1)==data) ? 'block' : 'none')
+    document
+      .querySelectorAll("lottie-player")
+      .forEach(
+        (lottie, index) =>
+          (lottie.style.display = index + 1 == data ? "block" : "none")
+      );
     setData(data);
     setProgress(0);
   };
@@ -273,89 +254,102 @@ if(items.length > 0)  {
     // this.setState({ progress });
   };
 
-
   return (
     <div>
-        <div css={narrativeStyle}>
-         
-          <div className="particles__container" style={{position:'relative'}}>
-            {/* <ParticlesAnimation /> */}
-          </div>
-          {/* <Chart /> */}
-          <VideoBackground src={Video} message="We specialize in creative media presentations for sales and learning purposes." />
-                             
-          
-          <div className="main">
-            <div className="graphic">
-              {
-                items.length > 2 && items.url_lottie !== '' ?
-                  items.map((item,idx) => (
-                      <lottie-player
-                        // ref={refs[idx]}
-                        id={`lottie${idx+1}`}
-                        mode="seek"
-                        src={item.url_lottie}
-                        key={item.key}
-                      ></lottie-player>
-                    ))
-                  : 
-                  <div>
-                    Loading....
-                  </div>
-              }
-              
-             
-            </div>
-            <div className="scroller" id="scroller">
-              
-                <Scrollama
-                  onStepEnter={onStepEnter}
-                  onStepExit={onStepExit}
-                  progress
-                  onStepProgress={onStepProgress}
-                  offset={0.33}
-                >
-                  {items.length > 0
-                    ? items.map((narr) => (
-                        <Step data={narr.key} key={narr.key}>
-                          <div
-                            className="step"
-                            id={`step${narr.key}`}
-                            style={{ marginBottom: "100px" }}
-                          >
-                            <div className="desc" id={"desc" + narr.key}>
-                              <Card>
-                                <Card.Body>
-                                  <Card.Text>{narr.description}</Card.Text>
-                                </Card.Body>
-                              </Card>
-                            </div>
-                          </div>
-                        </Step>
-                      ))
-                    : narration.map((narr) => (
-                        <Step data={narr.key} key={narr.key}>
-                          <div
-                            className="step"
-                            id={`step${narr.key}`}
-                            style={{ marginBottom: "100px" }}
-                          >
-                            <div className="desc" id={"desc" + narr.key}>
-                              <Card>
-                                <Card.Body>
-                                  <Card.Text>{narr.description}</Card.Text>
-                                </Card.Body>
-                              </Card>
-                            </div>
-                          </div>
-                        </Step>
-                      ))}
-                </Scrollama>
-               
-            </div>
-          </div>
-          <SiraBackground src={Sira} message="We specialize in creative media presentations for sales and learning purposes." />
+      <div css={narrativeStyle}>
+        <div className="particles__container" style={{ position: "relative" }}>
+          <ParticlesAnimation />
         </div>
+        <Chart />
+
+
+      <div style={{width:'100%', display:'flex', justifyContent:'center', flexDirection:'column', 'alignItems':'center', position:'absolute', 'top':'10px', zIndex:'100'}}>
+        <p style={{fontWeight: "bolder", fontSize: "30px"}}><span style={{color:'#7578bc'}}>{"{"}Explainer</span> Page{"}"}</p>
+        <div class="card" style={{ margin: "20px", width:'70%', padding:'15px', opacity:'0.8'}}>
+          <p style={{ fontWeight: "bolder", fontSize: "20px" }}>
+            Webpages that explain medical concepts in a fluid way
+          </p>
+          <p style={{ fontWeight: "bolder", fontSize: "20px", color:'#7578bc' }}>
+            We deliver interactive explainer pages with tracking and remote
+            control. The animations, videos, graphs and text boxes respond to
+            the user’s scroll.
+          </p>
+        </div>
+      </div>
+
+        <VideoBackground
+          src={Video}
+          message="We specialize in creative media presentations for sales and learning purposes."
+        />
+        {/* {explainerpage} and"We deliver interactive explainer pages with tracking and remote control.
+The animations, videos, graphs and text boxes respond to the user’s scroll."     */}
+        <div className="main">
+          <div className="graphic">
+            {items.length > 2 && items.url_lottie !== "" ? (
+              items.map((item, idx) => (
+                <lottie-player
+                  // ref={refs[idx]}
+                  id={`lottie${idx + 1}`}
+                  mode="seek"
+                  src={item.url_lottie}
+                  key={item.key}
+                ></lottie-player>
+              ))
+            ) : (
+              <div>Loading....</div>
+            )}
+          </div>
+          <div className="scroller" id="scroller">
+            <Scrollama
+              onStepEnter={onStepEnter}
+              onStepExit={onStepExit}
+              progress
+              onStepProgress={onStepProgress}
+              offset={0.33}
+            >
+              {items.length > 0
+                ? items.map((narr) => (
+                    <Step data={narr.key} key={narr.key}>
+                      <div
+                        className="step"
+                        id={`step${narr.key}`}
+                        style={{ marginBottom: "100px" }}
+                      >
+                        <div className="desc" id={"desc" + narr.key}>
+                          <Card>
+                            <Card.Body>
+                              <Card.Text>{narr.description}</Card.Text>
+                            </Card.Body>
+                          </Card>
+                        </div>
+                      </div>
+                    </Step>
+                  ))
+                : narration.map((narr) => (
+                    <Step data={narr.key} key={narr.key}>
+                      <div
+                        className="step"
+                        id={`step${narr.key}`}
+                        style={{ marginBottom: "100px" }}
+                      >
+                        <div className="desc" id={"desc" + narr.key}>
+                          <Card>
+                            <Card.Body>
+                              <Card.Text>{narr.description}</Card.Text>
+                            </Card.Body>
+                          </Card>
+                        </div>
+                      </div>
+                    </Step>
+                  ))}
+            </Scrollama>
+          </div>
+        </div>
+        <SiraBackground
+          src={Sira}
+          message="We specialize in creative media presentations for sales and learning purposes."
+        />
+      </div>
     </div>
   );
 }
