@@ -20,7 +20,11 @@ import { create } from "@lottiefiles/lottie-interactivity";
 // import { Lottie } from './components/Lottie';
 
 import ParticlesAnimation from "./ParticlesAnimation";
+import VideoBackground from "./VideoBackground";
+import SiraBackground from "./SiraBackground"
 
+import Video from "./video.gif"
+import Sira from "./sira.gif"
 
 import Chart from "./Chart"
 
@@ -40,7 +44,7 @@ const narration = require("./assets/data/narration.json");
 
 const narrativeStyle = css`
   img {
-    max-width: 500px;
+    max-width: 100%;
   }
 
   
@@ -275,9 +279,12 @@ if(items.length > 0)  {
         <div css={narrativeStyle}>
          
           <div className="particles__container" style={{position:'relative'}}>
-            <ParticlesAnimation />
+            {/* <ParticlesAnimation /> */}
           </div>
-          <Chart />
+          {/* <Chart /> */}
+          <VideoBackground src={Video} message="We specialize in creative media presentations for sales and learning purposes." />
+                             
+          
           <div className="main">
             <div className="graphic">
               {
@@ -347,6 +354,7 @@ if(items.length > 0)  {
                
             </div>
           </div>
+          <SiraBackground src={Sira} message="We specialize in creative media presentations for sales and learning purposes." />
         </div>
     </div>
   );
