@@ -20,6 +20,7 @@ import { create } from "@lottiefiles/lottie-interactivity";
 // import { Lottie } from './components/Lottie';
 
 import ParticlesAnimation from "./ParticlesAnimation";
+import WaterAnimation from "./WaterAnimation";
 import VideoBackground from "./VideoBackground";
 import SiraBackground from "./SiraBackground";
 
@@ -258,11 +259,11 @@ function Scrollyteller() {
     <div>
       <div css={narrativeStyle}>
         <div className="particles__container" style={{ position: "relative" }}>
-          <ParticlesAnimation />
+          {/* <ParticlesAnimation /> */}
         </div>
-        <Chart />
+        {/* <Chart /> */}
 
-
+      
       <div style={{width:'100%', display:'flex', justifyContent:'center', flexDirection:'column', 'alignItems':'center', position:'absolute', 'top':'10px', zIndex:'100'}}>
         <p style={{fontWeight: "bolder", fontSize: "30px"}}><span style={{color:'#7578bc'}}>{"{"}Explainer</span> Page{"}"}</p>
         <div class="card" style={{ margin: "20px", width:'70%', padding:'15px', opacity:'0.8'}}>
@@ -349,6 +350,7 @@ The animations, videos, graphs and text boxes respond to the user’s scroll."  
           src={Sira}
           message="We specialize in creative media presentations for sales and learning purposes."
         />
+        <WaterAnimation />
       </div>
     </div>
   );
