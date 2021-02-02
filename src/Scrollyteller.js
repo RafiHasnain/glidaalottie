@@ -29,7 +29,7 @@ import Chart from "./Chart"
 
 //** values ​​handled in percentages, example 25 = 25% ***********/
 const fadeIn = 10; // the lottie appears completely when this percentage is reached
-const fadeOut = 75; // the lottie starts to disappear when this percentage is reached
+const fadeOut = 85; // the lottie starts to disappear when this percentage is reached
 
 /****************** */
 
@@ -145,16 +145,7 @@ function Scrollyteller() {
   const [progress, setProgress] = useState(0);
   const [src, setSrc] = useState("");
   const [items, setItems] = useState([]);
-  const oneRef = useRef(null);
-  const twoRef = useRef(null);
-  const threeRef = useRef(null);
-  const fourRef = useRef(null);
-  const fiveRef = useRef(null);
-  const refs = [oneRef, twoRef, threeRef, fourRef, fiveRef]
-  const ids = ['firstLottie', 'twoLottie', 'threeLottie', 'fourLottie', 'fiveLottie' ]
-
-
-
+  
 
   useEffect(() => {
 
@@ -164,18 +155,11 @@ function Scrollyteller() {
       simpleSheet: true,
     })
       .then((items) => {
-         console.log(items);
-        // setItems( {items} );
-
-        items[0] = {key:"1", description:'lottie from public', url_lottie:'lf30_izlxd1pm.json'}
-
 
         setItems(items);
       })
       .catch((err) => console.warn(err));
 
-      // myScrollyTellerInstance.render();
-      
   }, []);
 
   useEffect(() => {
@@ -226,9 +210,7 @@ function Scrollyteller() {
       if (progress <= auxFadeIn) {
         
 
-          actLottie.style.opacity = `${progress * (1/auxFadeIn)}`;
-        
-
+          actLottie.style.opacity = `${progress * (1/auxFadeIn)}`
         
 
       } else if (progress > auxFadeIn && progress < auxFadeOut) {
@@ -242,89 +224,29 @@ function Scrollyteller() {
   }, [progress, data, items.length]);
 
    useEffect(() => {
-    if (items.length > 1) {
-      oneRef.current.addEventListener("load", function (e) {
-        create({
-          mode: "scroll",
-          player: `#firstLottie`,
-          container: "#step1",
-          actions: [
-            {
-              visibility: [0.3, 0.8],
-              type: "seek",
-              frames: [0, 100],
-            },
-          ],
-        });
-      });
-  
-      twoRef.current.addEventListener("load", function (e) {
-        create({
-          mode: "scroll",
-          player: `#twoLottie`,
-          container: "#step2",
-          actions: [
-            {
-              visibility: [0.3, 0.8],
-              type: "seek",
-              frames: [0, 100],
-            },
-          ],
-        });
-      });
-  
-      threeRef.current.addEventListener("load", function (e) {
-        create({
-          mode: "scroll",
-          player: `#threeLottie`,
-          container: "#step3",
-          actions: [
-            {
-              visibility: [0.3, 0.8],
-              type: "seek",
-              frames: [0, 100],
-            },
-          ],
-        });
-      });
-  
-      fourRef.current.addEventListener("load", function (e) {
-        create({
-          mode: "scroll",
-          player: `#fourLottie`,
-          container: "#step4",
-          actions: [
-            {
-              visibility: [0.3, 0.8],
-              type: "seek",
-              frames: [0, 100],
-            },
-          ],
-        });
-      });
-  
-      fiveRef.current.addEventListener("load", function (e) {
-        create({
-          mode: "scroll",
-          player: `#fiveLottie`,
-          container: "#step5",
-          actions: [
-            {
-              visibility: [0.3, 0.8],
-              type: "seek",
-              frames: [0, 100],
-            },
-          ],
-        });
-      });
-    }
-  }, [data, items.length]);
 
-  const update = (data) => {
-    var src = "./assets/images/" + data + ".png";
-    // this.setState({src});
-    setSrc(src);
-  };
+if(items.length > 0)  {
+      document.querySelectorAll('lottie-player').forEach((lottie,i) => {
+
+        lottie.addEventListener('load',function (e) {
+          create({
+            mode: "scroll",
+            player: `#lottie${i+1}`,
+            container: `#step${i+1}`,
+            actions: [
+              {
+                visibility: [0.3, 0.8],
+                type: "seek",
+                frames: [0, items[i].frames],
+              },
+            ],
+          });
+        });
+      })
+    }
+      
+  }, [items]);
+
 
   const onStepEnter = ({ data }) => {
     
@@ -347,30 +269,14 @@ function Scrollyteller() {
     // this.setState({ progress });
   };
 
-  // const { data, items } = this.state;
-  // console.log(myRef)
-  // const src = './assets/images/' + data + '.png';
-  // const src = './assets/animation/' + data + '.json';
-  // console.log(src)
-  const animation = {
-    1: "https://assets9.lottiefiles.com/packages/lf20_ntnh0s55.json",
-    2: "https://assets9.lottiefiles.com/packages/lf20_Fh701N.json",
-    3: "https://assets1.lottiefiles.com/datafiles/HN7OcWNnoqje6iXIiZdWzKxvLIbfeCGTmvXmEm1h/data.json",
-    4: "https://assets9.lottiefiles.com/packages/lf20_ntnh0s55.json",
-    5: "https://assets9.lottiefiles.com/packages/lf20_9wjm14ni.json",
-  };
-  // console.log(animation[1]);
-  
-  // console.log(items.length)
+
   return (
     <div>
         <div css={narrativeStyle}>
          
           <div className="particles__container" style={{position:'relative'}}>
             <ParticlesAnimation />
-            {/* <iframe style={{width:'40vw', height:'40vw', position:'absolute', left:'calc(60vw/2)', top:'100px'}} title="brain" src="https://clara.io/embed/25ca638e-16c2-4d87-8fb6-70cf6b42edcf?renderer=webgl"  ></iframe> */}
           </div>
-          <div id="chart"></div>
           <Chart />
           <div className="main">
             <div className="graphic">
@@ -378,8 +284,8 @@ function Scrollyteller() {
                 items.length > 2 && items.url_lottie !== '' ?
                   items.map((item,idx) => (
                       <lottie-player
-                        ref={refs[idx]}
-                        id={ids[idx]}
+                        // ref={refs[idx]}
+                        id={`lottie${idx+1}`}
                         mode="seek"
                         src={item.url_lottie}
                         key={item.key}
