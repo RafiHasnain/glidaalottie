@@ -13,13 +13,13 @@ const styles = {
     borderRadius:"5px",
     position: "sticky",
     top:"250px",
-    fontSize:"40px"
+    fontSize:"60px"
   },
   description: {
     height:"600px",
     textAlign:"center",
     padding:"50px 50px",
-    fontSize:"20px"
+    fontSize:"40px"
   },
   container: {
     display:"flex",
@@ -45,7 +45,7 @@ const styles = {
   title: {
     margin:"20px 0",
     padding:"0",
-    fontSize:"25px"
+    fontSize:"35px"
   },
   trigger: {
     borderTop:"1px dashed black",
@@ -132,14 +132,14 @@ class Chart extends React.Component {
         </div> */}
         <div className={classes.container}>
           <div className={classes.graphic}>
-            <p className={classes.title}>2018 Weather in: <span style={{color:"#1aa3ff", padding:"3px", borderRadius:"2px"}}>{cityNames[city]}</span></p>
+            <p className={classes.title}>Levels of activity: <span style={{color:"#1aa3ff", padding:"3px", borderRadius:"2px"}}>{cityNames[city]}</span></p>
             <BarChart width={screenWidth} height={screenHeight} data={city ? this.state.temps[city] : {} } />
           </div>
           <div className={classes.scroller}>
             {cities.map(city => {
               return (
                 <Waypoint onEnter={((obj) => this.onStepEnter(city, obj))} onLeave={((obj) => this.onStepExit(city, obj))} scrollableAncestor={window} topOffset={"33%"} bottomOffset={"66%"} key={city}>
-                  <div id={`waypoint-${city}`} className={classes.step} key={city}>{cityNames[city]} weather</div>
+                  <div id={`waypoint-${city}`} className={classes.step} key={city}>{cityNames[city]} Levels</div>
                 </Waypoint>
               )
             })}

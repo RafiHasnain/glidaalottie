@@ -7,6 +7,7 @@ import brain from "./brain-simple-mesh.glb";
 // import { PerspectiveCamera } from '@react-three/drei/PerspectiveCamera'
 import * as THREE from "three";
 import { OrbitControls, Stars } from "@react-three/drei";
+import { useSpring, a } from "react-spring/three"
 
 const numParticles = 2500;
 
@@ -16,7 +17,7 @@ const Brain = (props) => {
   const gltf = useLoader(GLTFLoader, brain);
   console.log(gltf);
   // return null;
-  return <primitive object={gltf.scene} position={[0, 0, 20]} scale={[2,2,2]}/>;
+  return <primitive object={gltf.scene} position={[0, 0, -1200]} scale={[120,120,120]}/>;
 };
 
 const Scene = () => {
@@ -122,10 +123,14 @@ const Map = (props) => {
   );
 };
 
+
 function Dolly() {
   // This one makes the camera move in and out
   useFrame(({ clock, camera }) => {
     camera.position.z = 50 + Math.sin(clock.getElapsedTime()) * 10;
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop
+    //console.log(winScroll);
+    camera.position.y = 100-(winScroll );
   });
   return null;
 }
@@ -159,10 +164,7 @@ export default function ParticlesAnimation() {
             gl
             camera={{ position: [0, 0, 1000], far: 10000 }}
           >
-            <mesh>
-              <sphereBufferGeometry args={[0.7, 1000, 500]} attach="geometry" />
-              <meshStandardMaterial color="hotpink" />
-            </mesh>
+           
 
             <Map />
             <Scene />

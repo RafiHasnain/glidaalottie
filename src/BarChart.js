@@ -25,7 +25,7 @@ class BarChart extends Component {
 
     const xScale = d3
       .scaleTime()
-      .domain([new Date("01/01/2017"), new Date("12/31/2017")])
+      .domain([new Date("01/01/2017"), new Date("08/31/2017")])
       .range([margin.left, width - margin.right]);
 
     const yScale = d3
