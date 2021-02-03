@@ -159,7 +159,7 @@ export default function ParticlesAnimation() {
             height: "100vh",
             position: "relative",
             top: 0,
-            width: "98.8vw",
+            width: "100%",
             left: "0",
             zIndex: "-1",
           }}

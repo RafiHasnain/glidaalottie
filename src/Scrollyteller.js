@@ -23,6 +23,7 @@ import ParticlesAnimation from "./ParticlesAnimation";
 import WaterAnimation from "./WaterAnimation";
 import VideoBackground from "./VideoBackground";
 import SiraBackground from "./SiraBackground";
+import ScrollAnimation from "./ScrollAnimation";
 
 import Video from "./video.gif";
 import Sira from "./sira.gif";
@@ -152,6 +153,7 @@ function Scrollyteller() {
     })
       .then((items) => {
         setItems(items);
+        console.log(items);
       })
       .catch((err) => console.warn(err));
   }, []);
@@ -260,6 +262,7 @@ function Scrollyteller() {
       <div css={narrativeStyle}>
         <div className="particles__container" style={{ position: "relative" }}>
           <ParticlesAnimation />
+          <ScrollAnimation />
         </div>
         <Chart />
 
@@ -282,8 +285,7 @@ function Scrollyteller() {
           src={Video}
           message="We specialize in creative media presentations for sales and learning purposes."
         />
-        {/* {explainerpage} and"We deliver interactive explainer pages with tracking and remote control.
-The animations, videos, graphs and text boxes respond to the user’s scroll."     */}
+       
         <div className="main">
           <div className="graphic">
             {items.length > 2 && items.url_lottie !== "" ? (
