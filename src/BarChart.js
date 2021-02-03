@@ -9,7 +9,7 @@ class BarChart extends Component {
   };
 
   xAxis = d3.axisBottom().tickFormat(d3.timeFormat("%b"));
-  yAxis = d3.axisLeft().tickFormat(d => `${d}℉`);
+  yAxis = d3.axisLeft().tickFormat(d => `${d}`);
 
 
   componentDidMount() {
