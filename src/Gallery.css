@@ -1,0 +1,31 @@
+.gallery {
+    display:grid;
+    grid-template-columns: repeat(4,1fr);
+    gap:40px;
+    padding: 10px;
+    position: absolute;
+    top: 0;
+    width: calc(100vw - 40px);
+   
+}
+
+@media screen and (max-width:850px) {
+
+    .gallery img {
+        width: 200px;
+    }
+        
+
+
+}
+
+@media screen and (max-width:600px) {
+    .gallery img {
+        width: 140px;
+    }
+    .gallery  {
+        
+        grid-template-columns: repeat(3,1fr);
+        gap:5px;
+    }
+}

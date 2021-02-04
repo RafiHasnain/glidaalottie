@@ -24,6 +24,8 @@ import WaterAnimation from "./WaterAnimation";
 import VideoBackground from "./VideoBackground";
 import SiraBackground from "./SiraBackground";
 import ScrollAnimation from "./ScrollAnimation";
+import Gallery from "./Gallery";
+import FlockAnimation from "./FlockAnimation";
 
 import Video from "./video.gif";
 import Sira from "./sira.gif";
@@ -44,7 +46,9 @@ const narrativeStyle = css`
   img {
     max-width: 100%;
   }
-
+  .left-side {
+    position: relative;
+  }
   .graphic {
     flex-basis: 50%;
     position: sticky;
@@ -63,6 +67,8 @@ const narrativeStyle = css`
     line-height: 1.3;
   }
   .step {
+    position: relative;
+    z-index: 100;
     margin-top: 10px;
     padding-top: 200px;
     padding-bottom: 200px;
@@ -194,9 +200,7 @@ function Scrollyteller() {
   }, []);
 
   useEffect(() => {
-    const actLottie = document.querySelector(
-      `lottie-player:nth-child(${data})`
-    );
+    const actLottie = document.querySelector(`.left-side:nth-child(${data})`);
 
     const auxFadeIn = fadeIn / 100;
     const auxFadeOut = fadeOut / 100;
@@ -235,11 +239,13 @@ function Scrollyteller() {
 
   const onStepEnter = ({ data }) => {
     document
-      .querySelectorAll("lottie-player")
+      .querySelectorAll(".left-side")
       .forEach(
         (lottie, index) =>
           (lottie.style.display = index + 1 == data ? "block" : "none")
       );
+
+    // document.querySelector('.content').style.display = data >= 8 ? 'block' : 'none';
     setData(data);
     setProgress(0);
   };
@@ -260,37 +266,65 @@ function Scrollyteller() {
   return (
     <div>
       <div css={narrativeStyle}>
-        {/* <div className="particles__container" style={{ position: "relative" }}>
+        <div className="particles__container" style={{ position: "relative" }}>
           <ParticlesAnimation />
           <ScrollAnimation />
         </div>
-        <Chart /> */}
+        <Chart />
 
-      {/* <div style={{height:'50px', display:'flex'}}></div>
-      <div style={{width:'100%', display:'flex', justifyContent:'center', flexDirection:'column', 'alignItems':'center', position:'absolute', 'top':'10px', zIndex:'100'}}>
-        <p style={{fontWeight: "bolder", fontSize: "30px"}}><span style={{color:'#7578bc'}}>{"{"}Explainer</span> Page{"}"}</p>
-        <div class="card" style={{ margin: "20px", width:'70%', padding:'15px', opacity:'0.8'}}>
-          <p style={{ fontWeight: "bolder", fontSize: "20px" }}>
-            Webpages that explain medical concepts in a fluid way
+        <div style={{ height: "50px", display: "flex" }}></div>
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+            alignItems: "center",
+            position: "absolute",
+            top: "10px",
+            zIndex: "100",
+          }}
+        >
+          <p style={{ fontWeight: "bolder", fontSize: "30px" }}>
+            <span style={{ color: "#7578bc" }}>{"{"}Explainer</span> Page{"}"}
           </p>
-          <p style={{ fontWeight: "bolder", fontSize: "20px", color:'#7578bc' }}>
-            We deliver interactive explainer pages with tracking and remote
-            control. The animations, videos, graphs and text boxes respond to
-            the user’s scroll.
-          </p>
+          <div
+            class="card"
+            style={{
+              margin: "20px",
+              width: "70%",
+              padding: "15px",
+              opacity: "0.8",
+            }}
+          >
+            <p style={{ fontWeight: "bolder", fontSize: "20px" }}>
+              Webpages that explain medical concepts in a fluid way
+            </p>
+            <p
+              style={{
+                fontWeight: "bolder",
+                fontSize: "20px",
+                color: "#7578bc",
+              }}
+            >
+              We deliver interactive explainer pages with tracking and remote
+              control. The animations, videos, graphs and text boxes respond to
+              the user’s scroll.
+            </p>
+          </div>
         </div>
-      </div> */}
 
         <VideoBackground
           src={Video}
           message="We specialize in creative media presentations for sales and learning purposes."
         />
-       
+
         <div className="main">
           <div className="graphic">
             {items.length > 2 && items.url_lottie !== "" ? (
               items.map((item, idx) => (
                 <lottie-player
+                  class="left-side"
                   // ref={refs[idx]}
                   id={`lottie${idx + 1}`}
                   mode="seek"
@@ -301,6 +335,28 @@ function Scrollyteller() {
             ) : (
               <div>Loading....</div>
             )}
+
+            <div
+              class="left-side"
+              style={{ height: "100vh", display: "grid", placeItems: "center" }}
+            >
+              <div
+                style={{
+                  display: "grid",
+                  placeItems: "center",
+                  height: "100%",
+                  width: "100%",
+                }}
+              >
+                <img src={Sira} alt="siriabackground"></img>
+              </div>
+            </div>
+            <div
+              class="left-side"
+              style={{ height: "100vh", display: "grid", placeItems: "center" }}
+            >
+              <Gallery />
+            </div>
           </div>
           <div className="scroller" id="scroller">
             <Scrollama
@@ -316,7 +372,7 @@ function Scrollyteller() {
                       <div
                         className="step"
                         id={`step${narr.key}`}
-                        style={{ marginBottom: "100px" }}
+                        style={{ marginBottom: "120px" }}
                       >
                         <div className="desc" id={"desc" + narr.key}>
                           <Card>
@@ -345,14 +401,41 @@ function Scrollyteller() {
                       </div>
                     </Step>
                   ))}
+              <Step data="8" key="8">
+                <div
+                  className="step"
+                  id={`step${8}`}
+                  style={{ marginBottom: "100px", marginTop: "300px" }}
+                >
+                  <div className="desc" id={"desc" + 8}>
+                    <Card>
+                      <Card.Body>
+                        <Card.Text>prueba</Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </div>
+                </div>
+              </Step>
+              <Step data="9" key="9">
+                <div
+                  className="step"
+                  id={`step${9}`}
+                  style={{ marginBottom: "300px", marginTop: "300px" }}
+                >
+                  <div className="desc" id={"desc" + 9}>
+                    <Card>
+                      <Card.Body>
+                        <Card.Text>prueba</Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </div>
+                </div>
+              </Step>
             </Scrollama>
           </div>
         </div>
-        <SiraBackground
-          src={Sira}
-          message="We specialize in creative media presentations for sales and learning purposes."
-        />
-        {/* <WaterAnimation /> */}
+        <WaterAnimation />
+        <FlockAnimation />
       </div>
     </div>
   );

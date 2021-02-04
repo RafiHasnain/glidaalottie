@@ -11,7 +11,7 @@ const SiraBackground = ({ src, message }) => {
         justifyContent:'center'
       }}
     >
-      <img style={{width:'45vw'}} src={src} alt="siriabackground"></img>
+      
       <div className="siria-card">
         <Card>
           <Card.Body>
