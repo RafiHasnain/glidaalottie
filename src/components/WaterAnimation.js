@@ -83,7 +83,7 @@ function Dolly() {
 
 function WaterAnimation() {
   return (
-      <div style={{height:'100vh', marginTop:'50px'}}>
+      <div style={{height:'100vh', position:'absolute', top:'0', width:'98.8vw'}}>
         <Canvas camera={{ fov: 75, position: [0, 0, 70] }} >
         <pointLight intensity={0.2} color="white" />
         <spotLight intensity={0.2} position={[70, 70, 70]} penumbra={1} color="lightblue" />
