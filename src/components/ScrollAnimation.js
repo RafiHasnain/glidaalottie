@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./ScrollAnimation.css";
+import "../ScrollAnimation.css";
 
 const ScrollAnimation = () => {
   return (

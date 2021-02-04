@@ -1,15 +1,15 @@
 import React from "react";
 
-import image1 from "./Archive/buttonSML01.png";
-import image2 from "./Archive/buttonSML02.png";
-import image3 from "./Archive/buttonSML03.png";
-import image4 from "./Archive/buttonSML04.png";
-import image5 from "./Archive/buttonSML05.png";
-import image6 from "./Archive/buttonSML06.png";
-import image7 from "./Archive/buttonSML07.png";
-import image8 from "./Archive/buttonSML08.png";
+import image1 from "../Archive/buttonSML01.png";
+import image2 from "../Archive/buttonSML02.png";
+import image3 from "../Archive/buttonSML03.png";
+import image4 from "../Archive/buttonSML04.png";
+import image5 from "../Archive/buttonSML05.png";
+import image6 from "../Archive/buttonSML06.png";
+import image7 from "../Archive/buttonSML07.png";
+import image8 from "../Archive/buttonSML08.png";
 
-import "./Gallery.css";
+import "../Gallery.css";
 
 const Gallery = () => {
   return (

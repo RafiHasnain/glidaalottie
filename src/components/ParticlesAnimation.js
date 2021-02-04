@@ -3,7 +3,7 @@ import { Canvas, useFrame } from "react-three-fiber";
 import { Helmet } from "react-helmet";
 import { useLoader, extend, useThree } from "react-three-fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import brain from "./brain-simple-mesh.glb";
+import brain from "../brain-simple-mesh.glb";
 // import { PerspectiveCamera } from '@react-three/drei/PerspectiveCamera'
 import * as THREE from "three";
 import { OrbitControls, Stars } from "@react-three/drei";
@@ -15,7 +15,6 @@ extend({ OrbitControls });
 
 const Brain = (props) => {
   const gltf = useLoader(GLTFLoader, brain);
-  console.log(gltf);
   
   const mat = new THREE.ShaderMaterial({  })
   // return null;

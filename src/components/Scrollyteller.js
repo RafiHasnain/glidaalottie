@@ -19,18 +19,14 @@ import "@lottiefiles/lottie-player";
 import { create } from "@lottiefiles/lottie-interactivity";
 // import { Lottie } from './components/Lottie';
 
-import ParticlesAnimation from "./ParticlesAnimation";
-import WaterAnimation from "./WaterAnimation";
 import VideoBackground from "./VideoBackground";
-import SiraBackground from "./SiraBackground";
+
 import ScrollAnimation from "./ScrollAnimation";
 import Gallery from "./Gallery";
 import FlockAnimation from "./FlockAnimation";
 
-import Video from "./video.gif";
-import Sira from "./sira.gif";
-
 import Chart from "./Chart";
+import D3Header from "./D3Header";
 
 //** values ​​handled in percentages, example 25 = 25% ***********/
 const fadeIn = 10; // the lottie appears completely when this percentage is reached
@@ -40,7 +36,7 @@ const fadeOut = 85; // the lottie starts to disappear when this percentage is re
 
 // console.log(myScrollyTellerInstance);
 
-const narration = require("./assets/data/narration.json");
+// const narration = require("../assets/data/narration.json");
 
 const narrativeStyle = css`
   img {
@@ -155,11 +151,27 @@ function Scrollyteller() {
     Tabletop.init({
       key:
         "https://docs.google.com/spreadsheets/d/1RfjhL5U0DvF1P6FtedRA4JuODHe0d1s8XbGgNKHmfdM/edit#gid=0",
-      simpleSheet: true,
+      simpleSheet: false,
     })
       .then((items) => {
-        setItems(items);
-        console.log(items);
+        let auxItems = [];
+        let value = "1";
+
+        for (let i = 0; i < items["Sheet2"].elements.length; i++) {
+          let auxArray = items["Sheet2"].elements.filter(
+            (e) => e.slide === value
+          );
+
+          i += auxArray.length;
+          i--;
+
+          value = items["Sheet2"].elements[i + 1]?.slide;
+
+          auxItems.push(auxArray);
+        }
+
+        console.log(auxItems);
+        setItems(auxItems);
       })
       .catch((err) => console.warn(err));
   }, []);
@@ -200,18 +212,20 @@ function Scrollyteller() {
   }, []);
 
   useEffect(() => {
-    const actLottie = document.querySelector(`.left-side:nth-child(${data})`);
+    const actSlide = document.querySelector(`.left-side:nth-child(${data})`);
 
-    const auxFadeIn = fadeIn / 100;
-    const auxFadeOut = fadeOut / 100;
+    if (actSlide) {
+      const auxFadeIn = fadeIn / 100;
+      const auxFadeOut = fadeOut / 100;
 
-    if (items.length > 1) {
-      if (progress <= auxFadeIn) {
-        actLottie.style.opacity = `${progress * (1 / auxFadeIn)}`;
-      } else if (progress > auxFadeIn && progress < auxFadeOut) {
-        actLottie.style.opacity = "1";
-      } else {
-        actLottie.style.opacity = `${(1 - progress) * (1 / (1 - auxFadeOut))}`;
+      if (items.length > 1) {
+        if (progress <= auxFadeIn) {
+          actSlide.style.opacity = `${progress * (1 / auxFadeIn)}`;
+        } else if (progress > auxFadeIn && progress < auxFadeOut) {
+          actSlide.style.opacity = "1";
+        } else {
+          actSlide.style.opacity = `${(1 - progress) * (1 / (1 - auxFadeOut))}`;
+        }
       }
     }
   }, [progress, data, items.length]);
@@ -265,62 +279,64 @@ function Scrollyteller() {
 
   return (
     <div>
-      <div css={narrativeStyle}>
-        <div className="particles__container" style={{ position: "relative" }}>
-          <ParticlesAnimation />
-          <ScrollAnimation />
-        </div>
-        <Chart />
+      {items.length > 0 ? (
+        <div css={narrativeStyle}>
+          <D3Header texts={items[0].map((e) => e.description)} />
+          <Chart texts={items[1].map((e) => e.description)} />
 
-        <div style={{ height: "50px", display: "flex" }}></div>
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "center",
-            flexDirection: "column",
-            alignItems: "center",
-            position: "absolute",
-            top: "10px",
-            zIndex: "100",
-          }}
-        >
-          <p style={{ fontWeight: "bolder", fontSize: "30px" }}>
-            <span style={{ color: "#7578bc" }}>{"{"}Explainer</span> Page{"}"}
-          </p>
-          <div
-            class="card"
-            style={{
-              margin: "20px",
-              width: "70%",
-              padding: "15px",
-              opacity: "0.8",
-            }}
-          >
-            <p style={{ fontWeight: "bolder", fontSize: "20px" }}>
-              Webpages that explain medical concepts in a fluid way
-            </p>
-            <p
-              style={{
-                fontWeight: "bolder",
-                fontSize: "20px",
-                color: "#7578bc",
-              }}
-            >
-              We deliver interactive explainer pages with tracking and remote
-              control. The animations, videos, graphs and text boxes respond to
-              the user’s scroll.
-            </p>
+          <div className="main">
+            <div className="graphic"></div>
+            <div className="scroller">
+              <Scrollama
+                onStepEnter={onStepEnter}
+                onStepExit={onStepExit}
+                progress
+                onStepProgress={onStepProgress}
+                offset={0.33}
+              >
+                {items.map((item, i) => {
+                  if (i > 1 && i < items.length - 1) {
+                    return (
+                      <Step data={i + 1} key={i + 1}>
+                        <div
+                          className="step"
+                          id={`step${i + 1}`}
+                          style={{ marginBottom: "120px" }}
+                        >
+                          {item.map((card, j) => (
+                            <div
+                              className="desc"
+                              id={`desc${i + 1}-${j + 1}`}
+                              key={`${i}-${j}`}
+                            >
+                              <Card>
+                                <Card.Body>
+                                  <Card.Text>{card.description}</Card.Text>
+                                </Card.Body>
+                              </Card>
+                            </div>
+                          ))}
+                        </div>
+                      </Step>
+                    );
+                  }
+
+                  return <p></p>;
+                })}
+              </Scrollama>
+            </div>
           </div>
         </div>
+      ) : null}
 
-        <VideoBackground
-          src={Video}
-          message="We specialize in creative media presentations for sales and learning purposes."
-        />
-
-        <div className="main">
+      {/* <div className="main">
           <div className="graphic">
+          <div
+              class="left-side"
+              style={{ height: "100vh", display: "grid", placeItems: "center" }}
+            >
+              <VideoBackground src={Video} />
+            </div>
             {items.length > 2 && items.url_lottie !== "" ? (
               items.map((item, idx) => (
                 <lottie-player
@@ -357,6 +373,7 @@ function Scrollyteller() {
             >
               <Gallery />
             </div>
+            
           </div>
           <div className="scroller" id="scroller">
             <Scrollama
@@ -365,7 +382,21 @@ function Scrollyteller() {
               progress
               onStepProgress={onStepProgress}
               offset={0.33}
-            >
+            ><Step data="0" key="0">
+                <div
+                  className="step"
+                  id={`step${0}`}
+                  style={{ marginBottom: "300px" }}
+                >
+                  <div className="desc" id={"desc" + 0}>
+                    <Card>
+                      <Card.Body>
+                        <Card.Text>prueba texto video</Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </div>
+                </div>
+              </Step>
               {items.length > 0
                 ? items.map((narr) => (
                     <Step data={narr.key} key={narr.key}>
@@ -433,10 +464,9 @@ function Scrollyteller() {
               </Step>
             </Scrollama>
           </div>
-        </div>
-        <WaterAnimation />
-        <FlockAnimation />
-      </div>
+        </div> */}
+      {/* <WaterAnimation /> */}
+      {/* <FlockAnimation /> */}
     </div>
   );
 }

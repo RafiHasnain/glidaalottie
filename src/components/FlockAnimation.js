@@ -8,7 +8,7 @@ import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
 import { AfterimagePass } from "three/examples/jsm/postprocessing/AfterimagePass";
 import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass";
-import { Flock } from "./flock";
+import { Flock } from "../flock";
 
 
 // Makes these prototypes available as "native" jsx-string elements

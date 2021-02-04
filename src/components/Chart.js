@@ -1,9 +1,9 @@
 import React from 'react';
 import injectSheet from "react-jss";
 import { Waypoint } from "react-waypoint";
-import nyc from "./chart-data/nyc.js"
-import sf from "./chart-data/sf.js"
-import am from "./chart-data/am.js"
+import nyc from "../chart-data/nyc.js"
+import sf from "../chart-data/sf.js"
+import am from "../chart-data/am.js"
 import BarChart from "./BarChart.js"
 
 const styles = {
@@ -27,7 +27,7 @@ const styles = {
     flexDirection:"column"
   },
   step:{
-    height:"100px",
+    height:"max-content",
     width:"100%",
     backgroundColor:"whitesmoke",
     border:"2px solid grey",
@@ -35,7 +35,7 @@ const styles = {
     marginBottom:"500px",
     fontSize:"25px",
     textAlign:"center",
-    lineHeight:"100px",
+    padding:'10px',
     zIndex:1,
     opacity:".8"
   },
@@ -120,7 +120,12 @@ class Chart extends React.Component {
 
   render() {
     const { classes } = this.props
+    const {texts} = this.props
+    cityNames['nyc'] = texts[0];
+    cityNames['sf'] = texts[1];
+    cityNames['am'] = texts[2];
     const { city, screenWidth, screenHeight } = this.state
+
 
     return (
       <div style={{marginTop:'30px'}}>

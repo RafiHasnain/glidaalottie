@@ -1,5 +1,5 @@
 import React from 'react';
-import Scrollyteller from './Scrollyteller.js'
+import Scrollyteller from './components/Scrollyteller.js'
 
 function App() {
   return (
