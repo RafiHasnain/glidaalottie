@@ -8,18 +8,17 @@ import BarChart from "./BarChart.js"
 
 const styles = {
   graphic: {
-    flexBasis:"60%",
+    flexBasis:"50%",
     height:"300px",
-    borderRadius:"5px",
     position: "sticky",
-    top:"250px",
+    top:"100px",
     fontSize:"60px"
   },
   description: {
     height:"600px",
     textAlign:"center",
     padding:"50px 50px",
-    fontSize:"40px"
+    fontSize:"20px"
   },
   container: {
     display:"flex",
@@ -28,10 +27,8 @@ const styles = {
   },
   step:{
     height:"max-content",
-    width:"100%",
+    width:"90%",
     backgroundColor:"whitesmoke",
-    border:"2px solid grey",
-    borderRadius:"5px",
     marginBottom:"500px",
     fontSize:"25px",
     textAlign:"center",
@@ -40,7 +37,8 @@ const styles = {
     opacity:".8"
   },
   scroller: {
-    flexBasis:"30%"
+    flexBasis:"40%",
+    padding:"500px 0px 0px 0px"
   },
   title: {
     margin:"20px 0",
@@ -49,7 +47,7 @@ const styles = {
   },
   trigger: {
     borderTop:"1px dashed black",
-    marginTop: "33vh",
+    marginTop: "50vh",
     position:"fixed",
     width:"100%"
   },
@@ -93,7 +91,7 @@ class Chart extends React.Component {
     let screenHeight = window.innerHeight
 
     if( screenWidth > 768 ) {
-      screenWidth = screenWidth * .55;
+      screenWidth = screenWidth * .42;
     } else {
       screenWidth = screenWidth * .90;
     }
@@ -104,8 +102,8 @@ class Chart extends React.Component {
   onStepEnter = (city, {currentPosition, previousPosition}) => {
     this.setState({city})
     const el = document.querySelector(`#waypoint-${city}`)
-    el.style.backgroundColor = '#85e085';
-    el.style.border = "2px solid green"
+
+
   }
 
   onStepExit = (city, {currentPosition, previousPosition}) => {
@@ -115,7 +113,7 @@ class Chart extends React.Component {
 
     const el = document.querySelector(`#waypoint-${city}`)
     el.style.backgroundColor = 'whitesmoke';
-    el.style.border = "2px solid grey"
+
   }
 
   render() {
@@ -137,20 +135,20 @@ class Chart extends React.Component {
         </div> */}
         <div className={classes.container}>
           <div className={classes.graphic}>
-            <p className={classes.title}>Levels of activity: <span style={{color:"#1aa3ff", padding:"3px", borderRadius:"2px"}}>{cityNames[city]}</span></p>
+            <p className={classes.title}>Mobile phone activity: <span style={{color:"#1aa3ff", padding:"3px", borderRadius:"2px"}}>{cityNames[city]}</span></p>
             <BarChart width={screenWidth} height={screenHeight} data={city ? this.state.temps[city] : {} } />
           </div>
           <div className={classes.scroller}>
             {cities.map(city => {
               return (
                 <Waypoint onEnter={((obj) => this.onStepEnter(city, obj))} onLeave={((obj) => this.onStepExit(city, obj))} scrollableAncestor={window} topOffset={"33%"} bottomOffset={"66%"} key={city}>
-                  <div id={`waypoint-${city}`} className={classes.step} key={city}>{cityNames[city]} Levels</div>
+                  <div id={`waypoint-${city}`} className={classes.step} key={city}>{cityNames[city]} </div>
                 </Waypoint>
               )
             })}
           </div>
         </div>
-        <div style={{height:"600px"}}></div>
+        <div style={{height:"200px"}}></div>
       </div>
     );
   }

@@ -56,6 +56,8 @@ const narrativeStyle = css`
     width: 100%;
     height: 75vh;
     align-self: flex-start;
+
+
   }
   .data {
     font-size: 5rem;

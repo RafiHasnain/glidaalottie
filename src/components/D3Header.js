@@ -25,8 +25,8 @@ const D3Header = ({ texts }) => {
           zIndex: "100",
         }}
       >
-        <p style={{ fontWeight: "bolder", fontSize: "30px" }}>
-          <span style={{ color: "#7578bc" }}>{"{"}Explainer</span> Page{"}"}
+        <p style={{ fontWeight: "bolder", fontSize: "40px" }}>
+          <span style={{ color: "#7578bc" }}>{"{"}Explainer</span> Page<sup style={{ fontWeight: "bolder", fontSize: "20px" }}>&#8482;</sup>{"}"}
         </p>
         <div
           class="card"
