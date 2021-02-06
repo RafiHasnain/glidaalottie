@@ -48,7 +48,14 @@ const narrativeStyle = css`
   }
   .left-side {
     height: 100vh;
+    display: none;
+    opacity: 0;
   }
+
+  .video {
+    transition: opacity ease 0.2ms;
+  }
+
   .graphic {
     flex-basis: 50%;
     position: sticky;
@@ -56,8 +63,6 @@ const narrativeStyle = css`
     width: 100%;
     height: 75vh;
     align-self: flex-start;
-
-
   }
   .data {
     font-size: 5rem;
@@ -69,7 +74,7 @@ const narrativeStyle = css`
     line-height: 1.3;
   }
   .step {
-    height: 100vh;
+    height: max-content;
     position: relative;
     z-index: 100;
     margin-top: 10px;
@@ -82,11 +87,10 @@ const narrativeStyle = css`
   }
   .card {
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.25);
-    margin-left: 20px;
-    margin-right: 20px;
     text-align: center;
     padding: 10%;
     background: white;
+    width:100%
   }
   .blurb {
     margin-left: 10%;
@@ -99,6 +103,8 @@ const narrativeStyle = css`
   .desc {
     margin-left: 20px;
     margin-right: 20px;
+    display: flex;
+    align-items:center;
   }
   .btn {
     color: #575757;
@@ -110,6 +116,7 @@ const narrativeStyle = css`
 
   lottie-player {
     transition: all ease 100ms;
+    height:100vh;
   }
 
   .main {
@@ -154,11 +161,11 @@ function Scrollyteller() {
   const [src, setSrc] = useState("");
   const [items, setItems] = useState([]);
 
-  let cardScroll = items ? [...items].splice(2, items.length - 1) : null;
+  let cardScroll = items ? [...items].splice(3, items.length - 1) : null;
   cardScroll = cardScroll ? cardScroll.splice(0, cardScroll.length - 1) : null;
 
-  let lotties = items ? [...cardScroll].filter((e) => e[0].frames != "") : null;
-  // console.log(lotties);
+  let lotties = items ? [...items].filter((e) => e[0].frames != "") : null;
+   console.log(lotties);
   useEffect(() => {
     Tabletop.init({
       key:
@@ -182,7 +189,6 @@ function Scrollyteller() {
           auxItems.push(auxArray);
         }
 
-        console.log(auxItems);
         setItems(auxItems);
       })
       .catch((err) => console.warn(err));
@@ -230,15 +236,29 @@ function Scrollyteller() {
       const auxFadeIn = fadeIn / 100;
       const auxFadeOut = fadeOut / 100;
 
-      if (items.length > 1) {
-        if (progress <= auxFadeIn) {
-          actSlide.style.opacity = `${progress * (1 / auxFadeIn)}`;
-        } else if (progress > auxFadeIn && progress < auxFadeOut) {
+      if(!actSlide.classList.contains('video')) {
+
+        if (items.length > 1) {
+          if (progress <= auxFadeIn) {
+            actSlide.style.opacity = `${progress * (1 / auxFadeIn)}`;
+          } else if (progress > auxFadeIn && progress < auxFadeOut) {
+            actSlide.style.opacity = "1";
+          } else {
+            actSlide.style.opacity = `${(1 - progress) * (1 / (1 - auxFadeOut))}`;
+          }
+        }
+      } else {
+
+        if (progress <= 35/100) {
+          actSlide.style.opacity = "0";
+        } else if (progress > 35/100 && progress < auxFadeOut) {
           actSlide.style.opacity = "1";
         } else {
-          actSlide.style.opacity = `${(1 - progress) * (1 / (1 - auxFadeOut))}`;
+          actSlide.style.opacity = "0";
         }
+
       }
+
     }
   }, [progress, data, items.length]);
 
@@ -252,9 +272,9 @@ function Scrollyteller() {
           container: `#step${lottie.id.split("lottie")[1]}`,
           actions: [
             {
-              visibility: [0.3, 0.8],
+              visibility: [0.1, 0.8],
               type: "seek",
-              frames: [0, lotties[i][0].frames],
+              frames: [0,  lotties[i][0].frames],
             },
           ],
         });
@@ -263,12 +283,11 @@ function Scrollyteller() {
   }, [items]);
 
   const onStepEnter = ({ data }) => {
-    document
-      .querySelectorAll(".left-side")
-      .forEach(
-        (lottie, index) =>
-          (lottie.style.display = index + 1 == data ? "block" : "none")
-      );
+    console.log("------------------");
+    document.querySelectorAll(".left-side").forEach((lottie, index) => {
+      lottie.style.display = index + 1 == data ? "block" : "none";
+     
+    });
 
     // document.querySelector('.content').style.display = data >= 8 ? 'block' : 'none';
     setData(data);
@@ -295,7 +314,47 @@ function Scrollyteller() {
           <div>
             <D3Header texts={items[0].map((e) => e.description)} />
 
-            <Chart texts={items[1].map((e) => e.description)} />
+            <div className="main" style={{marginBottom:'200px'}}>
+              <div className="graphic">
+                <lottie-player
+                  className="left-side"
+                  id={`lottie0`}
+                  mode="seek"
+                  src={items[1][0].data}
+                  key={0}
+                ></lottie-player>
+              </div>
+              <div className="scroller">
+                <Scrollama>
+                  <Step data={0} key={0}>
+                    <div
+                      className="step"
+                      id={`step0`}
+                      style={{
+                        marginBottom: "120px",
+                        display: "flex",
+                        justifyContent: "center",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <div
+                        className="desc"
+                        id={`desc0`}
+                        key={`0`}
+                      >
+                        <Card>
+                          <Card.Body>
+                            <Card.Text>{items[1][0].description}</Card.Text>
+                          </Card.Body>
+                        </Card>
+                      </div>
+                    </div>
+                  </Step>
+                </Scrollama>
+              </div>
+            </div>
+
+            <Chart texts={items[2].map((e) => e.description)} />
           </div>
         ) : null}
 
@@ -305,32 +364,33 @@ function Scrollyteller() {
               ? cardScroll.map((left, i) => {
                   if (left[0].slideType === "video") {
                     return (
-                      <div className="left-side" key={i}>
+                      <div className="left-side video" key={i}>
                         <VideoBackground src={left[0].data} />
                       </div>
                     );
                   } else if (left[0].slideType === "2d") {
                     return (
-                      <lottie-player
-                        class="left-side"
-                        id={`lottie${i + 1}`}
-                        mode="seek"
-                        src={left[0].data}
-                        key={i}
-                      ></lottie-player>
+                      <div className="left-side" key={i}>
+                        <lottie-player
+                          id={`lottie${i + 1}`}
+                          mode="seek"
+                          src={left[0].data}
+                          key={i}
+                        ></lottie-player>
+                      </div>
                     );
                   } else if (left[0].slideType === "3d") {
                     if (left[0].data === "dark") {
                       return (
-                        <div className="left-side">
-                          <p>video 3d</p>
-                          <WaterAnimation />
+                        <div className="left-side video" key={i}>
+                          {/* <p >video 3d</p> */}
+                          {/* <WaterAnimation /> */}
                         </div>
                       );
                     }
                   } else if (left[0].slideType === "porfolio") {
                     return (
-                      <div className="left-side">
+                      <div className="left-side video" key={i}>
                         <Gallery />
                       </div>
                     );
@@ -369,6 +429,7 @@ function Scrollyteller() {
                                 className="desc"
                                 id={`desc${i + 1}-${j + 1}`}
                                 key={`${i}-${j}`}
+                                style={{height:'100vh'}}
                               >
                                 <Card>
                                   <Card.Body>
@@ -417,7 +478,7 @@ function Scrollyteller() {
       </div>
 
       <div style={{ position: "relative" }}>
-        <FlockAnimation />
+        {/* <FlockAnimation /> */}
         <div
           style={{
             position: "absolute",
@@ -445,7 +506,7 @@ function Scrollyteller() {
               <Card>
                 <Card.Body>
                   <Card.Text>
-                    {items.length > 0 ? items[12][0].description : "loading..."}
+                    {items.length > 0 ? items[13][0].description : "loading..."}
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -462,7 +523,7 @@ function Scrollyteller() {
               }}
             >
               <span style={{ width: "max-content", color: "white" }}>
-                {items.length > 0 ? items[12][1].description : "loading..."}
+                {items.length > 0 ? items[13][1].description : "loading..."}
               </span>
             </div>
           </div>
